@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootAddNewStudPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="555.0" prefWidth="814.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddNewStudentFXMLController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="14.0" prefHeight="58.0" prefWidth="416.0" text="Add New Student" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="68.0" layoutY="157.0" prefHeight="18.0" prefWidth="114.0" text="First name" AnchorPane.leftAnchor="70.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="70.0" layoutY="235.0" prefHeight="18.0" prefWidth="114.0" text="Last name">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="70.0" layoutY="328.0" prefHeight="30.0" prefWidth="215.0" text="Master Serial Number">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="70.0" layoutY="423.0" prefHeight="30.0" prefWidth="176.0" text="Email Address">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="firstName" layoutX="182.0" layoutY="159.0" prefHeight="26.0" prefWidth="205.0" />
+      <TextField fx:id="lastName" layoutX="182.0" layoutY="237.0" prefHeight="26.0" prefWidth="205.0" />
+      <TextField fx:id="masterSerialNum" layoutX="276.0" layoutY="330.0" prefHeight="26.0" prefWidth="205.0" />
+      <TextField fx:id="emailAddress" layoutX="208.0" layoutY="425.0" prefHeight="26.0" prefWidth="205.0" />
+      <Label layoutX="501.0" layoutY="169.0" prefHeight="26.0" prefWidth="114.0" text="Branch">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="501.0" layoutY="247.0" prefHeight="26.0" prefWidth="114.0" text="College">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="studentBranch" layoutX="615.0" layoutY="170.0" prefWidth="150.0" promptText="Select Branch" />
+      <ComboBox fx:id="studentCollege" layoutX="615.0" layoutY="251.0" prefWidth="150.0" promptText="Select College" />
+      <Button fx:id="cancelBtn" layoutX="482.0" layoutY="496.0" mnemonicParsing="false" onAction="#goBackToAdminDash" prefHeight="32.0" prefWidth="224.0" text="Back" />
+      <Button fx:id="addStudentBtn" layoutX="127.0" layoutY="496.0" mnemonicParsing="false" onAction="#addStudentDatabase" prefHeight="32.0" prefWidth="224.0" text="Add Student" />
+   </children>
+</AnchorPane>

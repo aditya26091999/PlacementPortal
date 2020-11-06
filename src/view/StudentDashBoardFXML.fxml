@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="studDashRootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="632.0" prefWidth="1179.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StudentDashBoardFXMLController">
+   <children>
+      <TabPane layoutY="5.0" prefHeight="526.0" prefWidth="1109.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="Upcoming Drives">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="upComingDriveTabView" layoutX="168.0" prefHeight="394.0" prefWidth="1226.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <columns>
+                              <TableColumn fx:id="driveID" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="Drive ID" visible="false" />
+                              <TableColumn fx:id="compName" editable="false" prefWidth="247.19997864961624" resizable="false" sortable="false" text="Company" />
+                              <TableColumn fx:id="driveDate" editable="false" prefWidth="108.80000305175781" resizable="false" sortable="false" text="Drive Date" />
+                              <TableColumn fx:id="driveCTC" editable="false" prefWidth="91.20001220703125" resizable="false" sortable="false" text="CTC" />
+                              <TableColumn fx:id="driveBranch" editable="false" prefWidth="124.80001831054688" resizable="false" sortable="false" text="Eligible Branch" />
+                              <TableColumn editable="false" prefWidth="102.4000244140625" resizable="false" sortable="false" text="Xth %" fx:id="xthPerc" />
+                              <TableColumn editable="false" prefWidth="102.39996337890625" resizable="false" sortable="false" text="XIIth %" fx:id="xiiPerc" />
+                              <TableColumn fx:id="beAvgPerc" editable="false" prefWidth="120.0" resizable="false" sortable="false" text="BE avg %" />
+                              <TableColumn fx:id="maxDeadbacks" editable="false" prefWidth="128.79998779296875" resizable="false" sortable="false" text="Max. Dead Backs" />
+                              <TableColumn fx:id="maxLiveBacks" editable="false" prefWidth="147.99993896484375" resizable="false" sortable="false" text="Max. Live Backs" />
+                           </columns>
+                        </TableView>
+                        <Button fx:id="applyForDriveBtn" layoutX="484.0" layoutY="472.0" mnemonicParsing="false" onAction="#applyForSelectedDrive" prefHeight="36.0" prefWidth="210.0" text="Apply For Selected Drive" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Your Drives">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="522.0" prefWidth="1179.0">
+                     <children>
+                        <TableView fx:id="yourDriveTabView" layoutX="282.0" layoutY="14.0" prefHeight="442.0" prefWidth="615.0" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="282.0" AnchorPane.rightAnchor="282.0" AnchorPane.topAnchor="14.0">
+                          <columns>
+                            <TableColumn fx:id="yourCompName" editable="false" prefWidth="288.79998779296875" sortable="false" text="Company" />
+                              <TableColumn fx:id="yourDateOfDrive" editable="false" minWidth="0.0" prefWidth="188.0" sortable="false" text="Date of Drive" />
+                              <TableColumn fx:id="yourDriveCTC" editable="false" prefWidth="138.4000244140625" sortable="false" text="CTC" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <Button fx:id="logoutbtn" layoutX="478.0" layoutY="582.0" mnemonicParsing="false" onAction="#logOut" prefHeight="36.0" prefWidth="222.0" text="LOGOUT" AnchorPane.leftAnchor="478.0" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<TabPane fx:id="rootAdminDashPane" prefHeight="654.0" prefWidth="1212.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminDashBoardFXMLController">
+	<tabs>
+		<Tab text="Campus Drives">
+			<content>
+				<AnchorPane fx:id="campusDrivePane" minHeight="0.0" minWidth="0.0" prefHeight="498.0" prefWidth="924.0">
+					<children>
+						<Button fx:id="AddNewDriveBtn" layoutX="20.0" layoutY="476.0" mnemonicParsing="false" onAction="#addNewDrive" prefHeight="35.0" prefWidth="395.0" text="Add New Drive" AnchorPane.bottomAnchor="90.40000000000003" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="800.0" />
+						<Button fx:id="RemoveSelectedDriveBtn" layoutX="692.0" layoutY="476.0" mnemonicParsing="false" onAction="#removeSelDrive" prefHeight="35.0" prefWidth="385.0" text="Remove Selected Drive" AnchorPane.bottomAnchor="90.40000000000003" AnchorPane.leftAnchor="800.0" AnchorPane.rightAnchor="20.0" />
+                  <TableView fx:id="driveTabView" layoutX="65.0" layoutY="14.0" prefHeight="394.0" prefWidth="759.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+                    <columns>
+                      <TableColumn fx:id="driveID" prefWidth="75.0" resizable="false" sortable="false" text="Drive ID" visible="false" />
+                      <TableColumn fx:id="compName" editable="false" prefWidth="274.40000611543655" resizable="false" sortable="false" text="Company" />
+                        <TableColumn fx:id="driveDate" editable="false" prefWidth="99.20001220703125" resizable="false" sortable="false" text="Drive Date" />
+                        <TableColumn fx:id="driveCTC" editable="false" prefWidth="83.99996948242188" resizable="false" sortable="false" text="CTC" />
+                        <TableColumn fx:id="driveBranch" editable="false" prefWidth="156.0" resizable="false" sortable="false" text="Eligible Branch" />
+                        <TableColumn editable="false" prefWidth="88.7999267578125" resizable="false" sortable="false" text="Xth %" fx:id="xthPerc" />
+                        <TableColumn editable="false" prefWidth="105.60003662109375" resizable="false" sortable="false" text="XIIth %" fx:id="xiiPerc" />
+                        <TableColumn fx:id="beAvgPerc" editable="false" prefWidth="119.20001220703125" resizable="false" sortable="false" text="BE avg %" />
+                        <TableColumn fx:id="maxDeadbacks" editable="false" prefWidth="133.60003662109375" resizable="false" sortable="false" text="Max. Dead Backs" />
+                        <TableColumn fx:id="maxLiveBacks" editable="false" prefWidth="154.39990234375" resizable="false" sortable="false" text="Max. Live Backs" />
+                    </columns>
+                  </TableView>
+                  <Button fx:id="logOutBtnOne" layoutX="529.0" layoutY="559.0" mnemonicParsing="false" onAction="#logOutAction" prefHeight="36.0" prefWidth="154.0" text="LOG OUT" AnchorPane.leftAnchor="550.0" AnchorPane.rightAnchor="550.0" />
+					</children>
+				</AnchorPane>
+			</content>
+		</Tab>
+		<Tab text="Student Info">
+			<content>
+				<AnchorPane fx:id="studInfoPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+					<children>
+						<TableView fx:id="studTabView" layoutX="20.0" layoutY="81.0" prefHeight="274.0" prefWidth="1033.0" AnchorPane.bottomAnchor="164.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="81.0">
+							<columns>
+								<TableColumn fx:id="stuMSN" prefWidth="75.0" text="MSN" />
+								<TableColumn fx:id="stuFname" prefWidth="160.0" text="First Name" />
+                        <TableColumn fx:id="stuLname" prefWidth="145.6000518798828" text="Last Name" />
+                        <TableColumn fx:id="stuEmail" prefWidth="265.6000061035156" text="Email" />
+                        <TableColumn fx:id="stuBranch" prefWidth="159.199951171875" text="Branch" />
+                        <TableColumn fx:id="stuClg" prefWidth="128.800048828125" text="College" />
+                        <TableColumn fx:id="studLogPass" prefWidth="234.4000244140625" resizable="false" text="Login Password" />
+							</columns>
+						</TableView>
+						<Button fx:id="addNewStudBtn" layoutX="20.0" layoutY="473.0" mnemonicParsing="false" onAction="#addNewStud" prefHeight="35.0" prefWidth="200.0" text="Add New Student" AnchorPane.bottomAnchor="115.80000000000001" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="630.0" />
+						<Button fx:id="removeSelStudBtn" layoutX="629.0" layoutY="473.0" mnemonicParsing="false" onAction="#removeSelectedStud" prefHeight="35.0" prefWidth="200.0" text="Remove Selected Student" AnchorPane.bottomAnchor="115.80000000000001" AnchorPane.leftAnchor="629.0" AnchorPane.rightAnchor="21.0" />
+                  <Button fx:id="logOutBtnTwo" layoutX="529.0" layoutY="556.0" mnemonicParsing="false" onAction="#logOutActionTwo" prefHeight="36.0" prefWidth="154.0" text="LOG OUT" />
+                  <Button fx:id="getDetailsBtn" layoutX="99.0" layoutY="530.0" mnemonicParsing="false" onAction="#getDetailsOfSelectedStudent" prefHeight="26.0" prefWidth="378.0" text="Get details of selected Student" />
+                  <Label layoutX="37.0" layoutY="30.0" prefHeight="27.0" prefWidth="154.0" text="Search Student" />
+                  <TextField fx:id="searchBarTxt" layoutX="192.0" layoutY="31.0" prefHeight="26.0" prefWidth="345.0" promptText="enter MSN, Fname, Lname or email" />
+                  <Button fx:id="updateBtn" layoutX="764.0" layoutY="530.0" mnemonicParsing="false" onAction="#updateStudentRecord" prefHeight="26.0" prefWidth="330.0" text="Update Selected Student" />
+					</children>
+				</AnchorPane>
+			</content>
+		</Tab>
+	</tabs>
+</TabPane>
