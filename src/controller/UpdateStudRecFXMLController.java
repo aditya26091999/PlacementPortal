@@ -17,7 +17,6 @@ import javafx.scene.control.ComboBox;
 
 import javafx.scene.layout.AnchorPane;
 import model.DataEntryValidation;
-import model.DatabaseOperations;
 import screenPack.ScreenPackClass;
 
 public class UpdateStudRecFXMLController implements Initializable {
@@ -48,7 +47,6 @@ public class UpdateStudRecFXMLController implements Initializable {
 
 	@FXML
 	void updateRecord(ActionEvent event) {
-		boolean updateStudToDB;
 		try {
 			boolean isFieldEmpty = DataEntryValidation.checkEmptyFields(firstName.getText(), lastName.getText(),
 					emailAddress.getText(), studentBranch.getValue().toString(), studentCollege.getValue().toString());
@@ -59,9 +57,6 @@ public class UpdateStudRecFXMLController implements Initializable {
 				if (!DataEntryValidation.checkEmailRegex(emailAddress.getText())) {
 					AlertBoxClass.ErrBox("ERROR", "Enter a Valid Email address!");
 				} else {
-					updateStudToDB = DatabaseOperations.updateStudent(AdminDashBoardFXMLController.msn,
-							firstName.getText(), lastName.getText(), emailAddress.getText(), studentBranch.getValue(),
-							studentCollege.getValue());
 				}
 			}
 
