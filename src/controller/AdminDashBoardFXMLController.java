@@ -142,9 +142,10 @@ public class AdminDashBoardFXMLController implements Initializable {
 	@FXML
 	public void removeSelDrive(ActionEvent event) {
 		Drive drive = driveTabView.getSelectionModel().getSelectedItem();
-		boolean driveRemoved = DatabaseOperations.removeSelectedDrive(drive.getDID(), driveTabView);
+		boolean driveRemoved = DatabaseOperations.removeSelectedDrive(drive.getDID());
 		if (driveRemoved) {
 			AlertBoxClass.Notify("SUCCESS", "Drive removed from database!");
+			driveTabView.getItems().removeAll(driveTabView.getSelectionModel().getSelectedItem());
 		} else {
 			AlertBoxClass.ErrBox("ERROR", "An error occured on our end! Contact your software vendor!");
 		}
@@ -158,9 +159,11 @@ public class AdminDashBoardFXMLController implements Initializable {
 	@FXML
 	public void removeSelectedStud(ActionEvent event) {
 		Student stud = studTabView.getSelectionModel().getSelectedItem();
-		boolean studRemoved = DatabaseOperations.removeSelectedStudent(stud.getMSN(), studTabView);
+		boolean studRemoved = DatabaseOperations.removeSelectedStudent(stud.getMSN());
 		if (studRemoved) {
 			AlertBoxClass.Notify("SUCCESS", stud.getFname() + " removed from database!");
+			DatabaseOperations.removeStudDriveDetails(stud.getMSN());
+			studTabView.getItems().removeAll(studTabView.getSelectionModel().getSelectedItem());
 		} else {
 			AlertBoxClass.ErrBox("ERROR", "An error occured on our end! Contact your software vendor!");
 		}

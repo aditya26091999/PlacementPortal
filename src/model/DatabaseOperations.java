@@ -59,9 +59,9 @@ public class DatabaseOperations {
 			conn.close();
 		} catch (NumberFormatException nume) {
 			returnRes = false;
-			AlertBoxClass.ErrBox("Error", "Enter valid drive details!");
+			//AlertBoxClass.ErrBox("Error", "Enter valid drive details!");
 		} catch (Exception e) {
-			AlertBoxClass.ErrBox("ERROR", "Falied to add Drive to Database!");
+			//AlertBoxClass.ErrBox("ERROR", "Falied to add Drive to Database!");
 			e.printStackTrace();
 			returnRes = false;
 		}
@@ -91,14 +91,17 @@ public class DatabaseOperations {
 			int i = ps.executeUpdate();
 			if (i > 0) {
 				res = true;
-				AlertBoxClass.Notify("SUCCESS", "Student Added to database!");
+				// AlertBoxClass.Notify("SUCCESS", "Student Added to database!");
 			} else
 				res = false;
 			ps.close();
 			conn.close();
 		} catch (Exception e) {
-			AlertBoxClass.ErrBox("ERROR", "Master Serial Number Conflict OR Email conflict!");
+			// AlertBoxClass.ErrBox("ERROR", "Master Serial Number Conflict OR Email
+			// conflict!");
 			System.out.println("Failed to insert data!");
+			e.printStackTrace();
+			res = false;
 		}
 		return res;
 	}
@@ -195,7 +198,7 @@ public class DatabaseOperations {
 		return list;
 	}
 
-	public static boolean removeSelectedDrive(int DriveID, TableView<Drive> tabview) {
+	public static boolean removeSelectedDrive(int DriveID) {
 		try {
 			String raw = "DELETE FROM %s WHERE %s = ?";
 			String query = String.format(raw, Main.Constants.DRIVE_TABLE_NAME, DriveDataAccessClass.Constants.COMP_ID);
@@ -207,7 +210,7 @@ public class DatabaseOperations {
 			int i = ps.executeUpdate();
 			if (i > 0) {
 				res = true;
-				tabview.getItems().removeAll(tabview.getSelectionModel().getSelectedItem());
+				// tabview.getItems().removeAll(tabview.getSelectionModel().getSelectedItem());
 			} else {
 				res = false;
 			}
@@ -215,11 +218,12 @@ public class DatabaseOperations {
 			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+			res = false;
 		}
 		return res;
 	}
 
-	public static boolean removeSelectedStudent(Integer msn, TableView<Student> tabview) {
+	public static boolean removeSelectedStudent(int msn) {
 		try {
 			String raw = "DELETE FROM %s WHERE %s = ?";
 			String query = String.format(raw, Main.Constants.STUDENT_TABLE_NAME,
@@ -232,7 +236,7 @@ public class DatabaseOperations {
 			int i = ps.executeUpdate();
 			if (i > 0) {
 				res = true;
-				tabview.getItems().removeAll(tabview.getSelectionModel().getSelectedItem());
+				// tabview.getItems().removeAll(tabview.getSelectionModel().getSelectedItem());
 			} else {
 				res = false;
 			}
@@ -240,6 +244,28 @@ public class DatabaseOperations {
 			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+			res = false;
+		}
+		return res;
+	}
+
+	public static boolean removeStudDriveDetails(Integer msn) {
+		res = true;
+		try {
+			String query = "DELETE from %s WHERE %s = ?";
+			query = String.format(query, Main.Constants.STUD_DRIVE_APPLY_TAB,
+					StudentDriveDataAccessClass.Constants.STUD_ID);
+			String ConnURL = Main.Constants.CONNECTION_URL;
+			Class.forName(Main.Constants.CLASS_FOR_NAME);
+			Connection conn = DriverManager.getConnection(ConnURL);
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setInt(1, msn);
+			int i = ps.executeUpdate();
+			ps.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			res = false;
 		}
 		return res;
 	}
@@ -267,6 +293,7 @@ public class DatabaseOperations {
 		} catch (Exception e) {
 			AlertBoxClass.Amber("ALERT", "Already applied to the drive!");
 			e.printStackTrace();
+			res = false;
 		}
 		return res;
 	}
@@ -293,6 +320,7 @@ public class DatabaseOperations {
 			rs.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+			res = false;
 		}
 		return res;
 	}
@@ -319,6 +347,7 @@ public class DatabaseOperations {
 			rs.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+			res = false;
 		}
 		return res;
 	}
@@ -375,7 +404,7 @@ public class DatabaseOperations {
 			conn.close();
 			rs.close();
 		} catch (Exception e) {
-
+			res = false;
 		}
 		return res;
 	}
@@ -432,6 +461,7 @@ public class DatabaseOperations {
 			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+			res = false;
 			AlertBoxClass.ErrBox("WARNING", "Master Serial Number OR Email already exists! Have another go.");
 		}
 		return res;

@@ -56,6 +56,16 @@ public class ScreenPackClass {
 		stage.setScene(scene);
 		stage.show();
 	}
+	
+	public static void showAddNewStudentScreen() throws Exception {
+		Parent root = FXMLLoader.load(Main.class.getResource("/view/AddNewStudentFXML.fxml"));
+		Stage stage = new Stage();
+		Scene scene = new Scene(root);
+		stage.setResizable(false);
+		stage.setTitle("TnP Portal");
+		stage.setScene(scene);
+		stage.show();
+	}
 
 	public static void showStudentDashBoard(AnchorPane rootpane) throws Exception {
 		Parent root = FXMLLoader.load(Main.class.getResource("/view/StudentDashBoardFXML.fxml"));

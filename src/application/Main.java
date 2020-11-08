@@ -14,14 +14,14 @@ public class Main extends Application {
 		createAllTables();
 		ScreenPackClass.showLoginScreen();
 	}
-
+	
 	private void createAllTables() throws Exception {
 		StudentDataAccessClass.createStudentTable();
 		DriveDataAccessClass.createDriveTable();
 		AdminDataAccessClass.createAdminTable();
 		StudentDriveDataAccessClass.createStudentDriveApplyTable();
 	}
-
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
