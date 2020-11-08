@@ -14,8 +14,8 @@ public class DriveEntryInDatabaseTest {
 	
 	@Before
 	public void getResult() {
-		LogOutAndDriveEntryTestClass log = new LogOutAndDriveEntryTestClass();
-		result = log.getLogOut();
+		DriveAddToDB log = new DriveAddToDB();
+		result = log.driveToDB();
 	}
 	
 	@Test

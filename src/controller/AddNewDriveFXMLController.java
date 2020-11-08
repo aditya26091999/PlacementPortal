@@ -56,7 +56,6 @@ public class AddNewDriveFXMLController {
 	private Button addDriveBtn;
 	@FXML
 	private Button cancelDriveBtn;
-	public static boolean returnRes = false;
 	// Event Listener on Button[#addDriveBtn].onAction
 	@FXML
 	public void addDriveToDatabase(ActionEvent event) {
@@ -73,6 +72,7 @@ public class AddNewDriveFXMLController {
 			} else if (!((csRbtn.isSelected() || ITRbtn.isSelected() || MechRbtn.isSelected() || ENTCRbtn.isSelected()
 					|| CivilRbtn.isSelected()) || (AllRbtn.isSelected()))) {
 				System.out.println("Select a Department!");
+				AlertBoxClass.ErrBox("ERROR", "Select eligible departments!");
 			} else {
 				if (AllRbtn.isSelected()) {
 					department = "All";
@@ -112,10 +112,8 @@ public class AddNewDriveFXMLController {
 						ctcOfCompany.getText());
 				if (addedToDatabase) {
 					System.out.println("Drive added to database");
-					returnRes = true;
 					AlertBoxClass.Notify("SUCCESS", "Drive added to database!");
 				} else {
-					returnRes = false;
 					System.out.println("Error! Failed to add drive to database!");
 				}
 			}

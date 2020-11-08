@@ -20,6 +20,7 @@ public class DatabaseOperations {
 	public static String getLname = "";
 	public static String getEmail = "";
 	public static Integer getMsn = 0;
+	public static boolean returnRes = false;
 
 	public static boolean addDriveToDatabase(String cname, String cdate, String xthMin, String xIIthMin, String BEMin,
 			String deadBack, String liveBack, String branch, String ctc) {
@@ -47,15 +48,22 @@ public class DatabaseOperations {
 			ps.setFloat(9, Float.parseFloat(ctc));
 			int i = ps.executeUpdate();
 
-			if (i > 0)
+			if (i > 0) {
 				res = true;
-			else
+				returnRes = true;
+			} else {
 				res = false;
+				returnRes = false;
+			}
 			ps.close();
 			conn.close();
+		} catch (NumberFormatException nume) {
+			returnRes = false;
+			AlertBoxClass.ErrBox("Error", "Enter valid drive details!");
 		} catch (Exception e) {
 			AlertBoxClass.ErrBox("ERROR", "Falied to add Drive to Database!");
 			e.printStackTrace();
+			returnRes = false;
 		}
 		return res;
 	}
