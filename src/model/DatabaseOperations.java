@@ -270,8 +270,9 @@ public class DatabaseOperations {
 		return res;
 	}
 
-	public static boolean applyForDrive(int driveid, int studid, String dname) {
+	public static boolean applyForDrive(int driveid, int studid) {
 		try {
+			res = true;
 			String raw = "INSERT INTO %s (%s, %s) VALUES (?, ?)";
 			String query = String.format(raw, Main.Constants.STUD_DRIVE_APPLY_TAB,
 					StudentDriveDataAccessClass.Constants.DRIVE_ID, StudentDriveDataAccessClass.Constants.STUD_ID);
@@ -285,13 +286,13 @@ public class DatabaseOperations {
 
 			if (i > 0) {
 				res = true;
-				AlertBoxClass.Notify("SUCCESS", "Applied for " + dname + " drive");
+				//AlertBoxClass.Notify("SUCCESS", "Applied for " + dname + " drive");
 			} else
 				res = false;
 			ps.close();
 			conn.close();
 		} catch (Exception e) {
-			AlertBoxClass.Amber("ALERT", "Already applied to the drive!");
+			//AlertBoxClass.Amber("ALERT", "Already applied to the drive!");
 			e.printStackTrace();
 			res = false;
 		}

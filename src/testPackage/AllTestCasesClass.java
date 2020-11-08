@@ -9,7 +9,7 @@ public class AllTestCasesClass {
 	public static boolean studReg;
 	public static boolean delStudReg;
 	public static boolean delDrive;
-	public static boolean appLogOut;
+	public static boolean applyDrive;
 	public static boolean addDriveToDB;
 
 	public boolean getStudRegResult(int msn, String fname, String lname, String email, String branch, String college,
@@ -29,9 +29,9 @@ public class AllTestCasesClass {
 		return delDrive;
 	}
 
-	public boolean getAppLogOutResult() {
-
-		return appLogOut;
+	public boolean studApplyForDrive(int driveid, int msn) {
+		applyDrive = DatabaseOperations.applyForDrive(driveid, msn);
+		return applyDrive;
 	}
 
 	public boolean getAddDriveToDBResult(String cname, String cdate, String xthMin, String xIIthMin, String BEMin,

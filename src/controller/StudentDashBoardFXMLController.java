@@ -56,7 +56,7 @@ public class StudentDashBoardFXMLController implements Initializable {
 	private TableColumn<Drive, String> maxLiveBacks;
 	@FXML
 	private Button applyForDriveBtn;
-	
+
 	@FXML
 	private TableColumn<Drive, String> yourCompName;
 	@FXML
@@ -67,21 +67,28 @@ public class StudentDashBoardFXMLController implements Initializable {
 	private Button logoutbtn;
 	@FXML
 	private TableView<Drive> yourDriveTabView;
-
+	private int msn;
 	ObservableList<Drive> driveList;
+
 	// Event Listener on Button[#appiyForDriveBtn].onAction
 	@FXML
 	public void applyForSelectedDrive(ActionEvent event) {
 		Drive drive = upComingDriveTabView.getSelectionModel().getSelectedItem();
-		/*boolean appliedForDrive = DatabaseOperations.applyForDrive();
+		/*
+		 * boolean appliedForDrive = DatabaseOperations.applyForDrive(); if
+		 * (appliedForDrive) { AlertBoxClass.Notify("SUCCESS", "Applied For " +
+		 * drive.getDname()); } else { AlertBoxClass.ErrBox("ERROR",
+		 * "Failed to apply to the selected drive! Contact your software vendor OR your TnP coordinator!"
+		 * ); }
+		 */
+		msn = LoginPageFXMLController.msn;
+		boolean appliedForDrive = DatabaseOperations.applyForDrive(drive.getDID(), msn);
 		if (appliedForDrive) {
-			AlertBoxClass.Notify("SUCCESS", "Applied For " + drive.getDname());
+			AlertBoxClass.Notify("SUCCESS", "Applied for " + drive.getDname() + " drive");
 		} else {
-			AlertBoxClass.ErrBox("ERROR",
-					"Failed to apply to the selected drive! Contact your software vendor OR your TnP coordinator!");
-		}*/
-		DatabaseOperations.applyForDrive(drive.getDID(), LoginPageFXMLController.msn, drive.getDname());
-		
+			AlertBoxClass.Amber("ALERT", "Already applied to the drive!");
+		}
+
 	}
 
 	// Event Listener on Button[#logoutbtn].onAction
@@ -105,8 +112,7 @@ public class StudentDashBoardFXMLController implements Initializable {
 		maxLiveBacks.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_MAX_LIVE_BACK));
 		driveList = DatabaseOperations.getCompanyDetails();
 		upComingDriveTabView.setItems(driveList);
-		
-		
+
 		yourCompName.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_NAME));
 		yourDateOfDrive.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_DATE));
 		yourDriveCTC.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_CTC));
