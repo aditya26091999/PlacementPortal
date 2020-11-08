@@ -56,7 +56,7 @@ public class AddNewDriveFXMLController {
 	private Button addDriveBtn;
 	@FXML
 	private Button cancelDriveBtn;
-
+	public static boolean returnRes = false;
 	// Event Listener on Button[#addDriveBtn].onAction
 	@FXML
 	public void addDriveToDatabase(ActionEvent event) {
@@ -112,9 +112,12 @@ public class AddNewDriveFXMLController {
 						ctcOfCompany.getText());
 				if (addedToDatabase) {
 					System.out.println("Drive added to database");
+					returnRes = true;
 					AlertBoxClass.Notify("SUCCESS", "Drive added to database!");
-				} else
+				} else {
+					returnRes = false;
 					System.out.println("Error! Failed to add drive to database!");
+				}
 			}
 		} catch (Exception e) {
 			AlertBoxClass.Amber("Missing Date", "You Left Date field empty!");

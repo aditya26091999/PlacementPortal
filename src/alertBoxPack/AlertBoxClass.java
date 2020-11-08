@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import screenPack.ScreenPackClass;
 
 public class AlertBoxClass {
+	public static boolean loggedOut = false;
 	public static void ErrBox(String title, String msg) {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
 		alert.setTitle(title);
@@ -41,9 +42,11 @@ public class AlertBoxClass {
 	    
 	    Optional<ButtonType> option = alert.showAndWait();
 	    if(option.get() == ButtonType.OK) {
+	    	loggedOut = true;
 	    	ScreenPackClass.showLoginPage(rootpane);
 	    }
 	    else if(option.get() == ButtonType.CANCEL) {
+	    	loggedOut = false;
 	    	ScreenPackClass.showAdminDashScreen(rootpane);
 	    }
 	}

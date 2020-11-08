@@ -38,13 +38,13 @@ public class DatabaseOperations {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, cname);
 			ps.setString(2, cdate);
-			ps.setString(3, xthMin);
-			ps.setString(4, xIIthMin);
-			ps.setString(5, BEMin);
-			ps.setString(6, deadBack);
-			ps.setString(7, liveBack);
+			ps.setInt(3, Integer.parseInt(xthMin));
+			ps.setInt(4, Integer.parseInt(xIIthMin));
+			ps.setInt(5, Integer.parseInt(BEMin));
+			ps.setInt(6, Integer.parseInt(deadBack));
+			ps.setInt(7, Integer.parseInt(liveBack));
 			ps.setString(8, branch);
-			ps.setString(9, ctc);
+			ps.setFloat(9, Float.parseFloat(ctc));
 			int i = ps.executeUpdate();
 
 			if (i > 0)
