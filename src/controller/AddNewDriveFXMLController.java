@@ -105,16 +105,21 @@ public class AddNewDriveFXMLController {
 						department = department.substring(0, department.length() - 1);
 					}
 				}
-				System.out.println("Departments selected: " + department);
-				addedToDatabase = DatabaseOperations.addDriveToDatabase(companyName.getText(),
-						dateOfDrive.getValue().toString(), TenthMinPerc.getText(), TwelthMinPerc.getText(),
-						BEMinPerc.getText(), MaxDeadBacks.getText(), MaxActiveBacks.getText(), department,
-						ctcOfCompany.getText());
-				if (addedToDatabase) {
-					System.out.println("Drive added to database");
-					AlertBoxClass.Notify("SUCCESS", "Drive added to database!");
-				} else {
-					System.out.println("Error! Failed to add drive to database!");
+				if(!DataEntryValidation.checkpercFields(Integer.parseInt(TenthMinPerc.getText()), Integer.parseInt(TwelthMinPerc.getText()), Integer.parseInt(BEMinPerc.getText()))) {
+					AlertBoxClass.ErrBox("Invalid Percentages", "Percentage fields contain invalid data!");
+				}
+				else {
+					System.out.println("Departments selected: " + department);
+					addedToDatabase = DatabaseOperations.addDriveToDatabase(companyName.getText(),
+							dateOfDrive.getValue().toString(), TenthMinPerc.getText(), TwelthMinPerc.getText(),
+							BEMinPerc.getText(), MaxDeadBacks.getText(), MaxActiveBacks.getText(), department,
+							ctcOfCompany.getText());
+					if (addedToDatabase) {
+						System.out.println("Drive added to database");
+						AlertBoxClass.Notify("SUCCESS", "Drive added to database!");
+					} else {
+						System.out.println("Error! Failed to add drive to database!");
+					}
 				}
 			}
 		} catch (Exception e) {

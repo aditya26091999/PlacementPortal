@@ -58,4 +58,13 @@ public class DataEntryValidation {
 		else
 			return false;
 	}
+	
+	public static boolean checkpercFields(int XthPer, int XIIthPer, int BEPer) {
+		if(XthPer > 100 || XIIthPer > 100 || BEPer > 100)
+			return false;
+		if(XthPer < 55 || XIIthPer < 55 || BEPer < 55 )
+			return false;
+		else
+			return true;
+	}
 }
