@@ -67,4 +67,13 @@ public class DataEntryValidation {
 		else
 			return true;
 	}
+	
+	public static boolean checkBacklogField(int deadBack, int liveBack) {
+		if(deadBack > 5 || liveBack > 5)
+			return false;
+		if(deadBack < 0 || liveBack < 0)
+			return false;
+		else
+			return true;
+	}
 }

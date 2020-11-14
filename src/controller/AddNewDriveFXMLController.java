@@ -108,6 +108,9 @@ public class AddNewDriveFXMLController {
 				if(!DataEntryValidation.checkpercFields(Integer.parseInt(TenthMinPerc.getText()), Integer.parseInt(TwelthMinPerc.getText()), Integer.parseInt(BEMinPerc.getText()))) {
 					AlertBoxClass.ErrBox("Invalid Percentages", "Percentage fields contain invalid data!");
 				}
+				if(!DataEntryValidation.checkBacklogField(Integer.parseInt(MaxDeadBacks.getText()), Integer.parseInt(MaxActiveBacks.getText()))) {
+					AlertBoxClass.ErrBox("Invalid Backlog entry", "Check Dead or Active backlog fields again!");
+				}
 				else {
 					System.out.println("Departments selected: " + department);
 					addedToDatabase = DatabaseOperations.addDriveToDatabase(companyName.getText(),
