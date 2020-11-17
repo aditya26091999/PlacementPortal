@@ -126,7 +126,7 @@ public class AddNewDriveFXMLController {
 				}
 			}
 		} catch (Exception e) {
-			AlertBoxClass.Amber("Missing Date", "You Left Date field empty!");
+			AlertBoxClass.Amber("ERROR","Missing/invalid values");
 		}
 	}
 
