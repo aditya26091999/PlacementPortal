@@ -12,7 +12,6 @@ import alertBoxPack.AlertBoxClass;
 import application.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableView;
 
 public class DatabaseOperations {
 	static boolean res = false;
@@ -260,7 +259,7 @@ public class DatabaseOperations {
 			Connection conn = DriverManager.getConnection(ConnURL);
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setInt(1, msn);
-			int i = ps.executeUpdate();
+			ps.executeUpdate();
 			ps.close();
 			conn.close();
 		} catch (Exception e) {

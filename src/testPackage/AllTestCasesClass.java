@@ -2,7 +2,6 @@ package testPackage;
 
 import java.sql.SQLException;
 
-import controller.AddNewStudentFXMLController;
 import model.DatabaseOperations;
 
 public class AllTestCasesClass {
