@@ -27,39 +27,39 @@ public class SidTestCases {
 //		assertTrue(res);
 //	}
 	
-	@Test
-	public void DeleteStudentTestPass() throws Exception {
-		res = obj.getdelStudRegResult(101);
-		assertTrue(res);
-	}
-	
-	@Test
-	public void DeleteStudentTestFail() throws Exception {
-		res = obj.getdelStudRegResult(101);
-		assertTrue(res);
-	}
-	
-	@Test
-	public void AddDriveToDatabaseTestPass() throws Exception{
-		res = obj.getAddDriveToDBResult("TestTwo", "2020-10-24", "60", "60", "60", "1", "1", "ENTC", "5.5");
-		assertTrue(res);
-	}
-	
-	@Test
-	public void AddDriveToDatabaseTestFail() throws Exception{
-		res = obj.getAddDriveToDBResult("Test", null, "60", "60", "60", "1", "1", "ENTC", "5.5");
-		assertTrue(res);
-	}
-	
-	@Test
-	public void ApplyForDriveTestPass() throws Exception{
-		res = obj.studApplyForDrive(5, 102);
-		assertTrue(res);
-	}
-	
-	@Test
-	public void ApplyForDriveTestFail() throws Exception{
-		res = obj.studApplyForDrive(5, 102);
-		assertTrue(res);
-	}
+//	@Test
+//	public void DeleteStudentTestPass() throws Exception {
+//		res = obj.getdelStudRegResult(101);
+//		assertTrue(res);
+//	}
+//	
+//	@Test
+//	public void DeleteStudentTestFail() throws Exception {
+//		res = obj.getdelStudRegResult(101);
+//		assertTrue(res);
+//	}
+//	
+//	@Test
+//	public void AddDriveToDatabaseTestPass() throws Exception{
+//		res = obj.getAddDriveToDBResult("TestTwo", "2020-10-24", "60", "60", "60", "1", "1", "ENTC", "5.5");
+//		assertTrue(res);
+//	}
+//	
+//	@Test
+//	public void AddDriveToDatabaseTestFail() throws Exception{
+//		res = obj.getAddDriveToDBResult("Test", null, "60", "60", "60", "1", "1", "ENTC", "5.5");
+//		assertTrue(res);
+//	}
+//	
+//	@Test
+//	public void ApplyForDriveTestPass() throws Exception{
+//		res = obj.studApplyForDrive(5, 102);
+//		assertTrue(res);
+//	}
+//	
+//	@Test
+//	public void ApplyForDriveTestFail() throws Exception{
+//		res = obj.studApplyForDrive(5, 102);
+//		assertTrue(res);
+//	}
 }

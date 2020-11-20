@@ -52,6 +52,14 @@ public class DataEntryValidation {
 		else
 			return true;
 	}
+	
+	public static boolean checkCompName(String cname) {
+		String regex = "^[a-zA-Z]*$";
+		if(cname.matches(regex))
+			return false;
+		else
+			return true;
+	}
 
 	public static boolean checkEmailRegex(String email) {
 		String EmailRegex = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
@@ -76,6 +84,13 @@ public class DataEntryValidation {
 		if (deadBack > 5 || liveBack > 5)
 			return true;
 		if (deadBack < 0 || liveBack < 0)
+			return true;
+		else
+			return false;
+	}
+	
+	public static boolean checkCtcField(float ctc) {
+		if(ctc > 50 || ctc < 1.1)
 			return true;
 		else
 			return false;

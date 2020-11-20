@@ -6,11 +6,16 @@ import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import model.DataEntryValidation;
 import model.DatabaseOperations;
 import screenPack.ScreenPackClass;
 
+import java.sql.SQLException;
 import alertBoxPack.AlertBoxClass;
+import exceptionPack.BackLogOutOfBoundsException;
+import exceptionPack.CtcOutOfBoundsException;
+import exceptionPack.EmptyFieldsException;
+import exceptionPack.NameException;
+import exceptionPack.PercentageOutOfBoundsException;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.DatePicker;
@@ -56,20 +61,24 @@ public class AddNewDriveFXMLController {
 	private Button addDriveBtn;
 	@FXML
 	private Button cancelDriveBtn;
+
 	// Event Listener on Button[#addDriveBtn].onAction
 	@FXML
-	public void addDriveToDatabase(ActionEvent event) {
-		boolean addedToDatabase;
+	public void addDriveToDatabase(ActionEvent event)
+			throws NumberFormatException, ClassNotFoundException, SQLException {
+//		boolean addedToDatabase;
 		String department = "";
 		try {
-			//
-			boolean isEmptyFields = DataEntryValidation.checkEmptyFields(companyName.getText(),
-					dateOfDrive.getValue().toString(), TenthMinPerc.getText(), TwelthMinPerc.getText(),
-					BEMinPerc.getText(), MaxDeadBacks.getText(), MaxActiveBacks.getText(), ctcOfCompany.getText());
+			String company = companyName.getText();
+			String date = dateOfDrive.getValue().toString();
+			String XthMinPerc = TenthMinPerc.getText();
+			String XIIthMinPerc = TwelthMinPerc.getText();
+			String BeMinPerc = BEMinPerc.getText();
+			String MaxLiveBack = MaxActiveBacks.getText();
+			String MaxDeadBack = MaxDeadBacks.getText();
+			String ctc = ctcOfCompany.getText();
 
-			if (isEmptyFields) {
-				AlertBoxClass.Amber("Missing Fields", "You Left some fields empty!");
-			} else if (!((csRbtn.isSelected() || ITRbtn.isSelected() || MechRbtn.isSelected() || ENTCRbtn.isSelected()
+			if (!((csRbtn.isSelected() || ITRbtn.isSelected() || MechRbtn.isSelected() || ENTCRbtn.isSelected()
 					|| CivilRbtn.isSelected()) || (AllRbtn.isSelected()))) {
 				System.out.println("Select a Department!");
 				AlertBoxClass.ErrBox("ERROR", "Select eligible departments!");
@@ -105,28 +114,31 @@ public class AddNewDriveFXMLController {
 						department = department.substring(0, department.length() - 1);
 					}
 				}
-				if(DataEntryValidation.checkpercFields(Integer.parseInt(TenthMinPerc.getText()), Integer.parseInt(TwelthMinPerc.getText()), Integer.parseInt(BEMinPerc.getText()))) {
-					AlertBoxClass.ErrBox("Invalid Percentages", "Percentage fields contain invalid data!");
-				}
-				if(DataEntryValidation.checkBacklogField(Integer.parseInt(MaxDeadBacks.getText()), Integer.parseInt(MaxActiveBacks.getText()))) {
-					AlertBoxClass.ErrBox("Invalid Backlog entry", "Check Dead or Active backlog fields again!");
-				}
-				else {
-					System.out.println("Departments selected: " + department);
-					addedToDatabase = DatabaseOperations.addDriveToDatabase(companyName.getText(),
-							dateOfDrive.getValue().toString(), TenthMinPerc.getText(), TwelthMinPerc.getText(),
-							BEMinPerc.getText(), MaxDeadBacks.getText(), MaxActiveBacks.getText(), department,
-							ctcOfCompany.getText());
-					if (addedToDatabase) {
-						System.out.println("Drive added to database");
-						AlertBoxClass.Notify("SUCCESS", "Drive added to database!");
-					} else {
-						System.out.println("Error! Failed to add drive to database!");
-					}
-				}
 			}
+
+			int i = DatabaseOperations.addDriveToDatabase(company, date, XthMinPerc, XIIthMinPerc, BeMinPerc, MaxDeadBack,
+					MaxLiveBack, department, ctc);
+			if(i>0) {
+				AlertBoxClass.Notify("SUCCESS", company+" added to placement drive");
+			}
+		} catch (EmptyFieldsException e) {
+			e.printStackTrace();
+			AlertBoxClass.ErrBox("ERROR", "You left some fields empty!");
+		} catch (PercentageOutOfBoundsException e) {
+			e.printStackTrace();
+			AlertBoxClass.ErrBox("ERROR", "You entered invalid percentage!");
+		} catch (CtcOutOfBoundsException e) {
+			e.printStackTrace();
+			AlertBoxClass.ErrBox("ERROR", "You entered invalid CTC!");
+		} catch (BackLogOutOfBoundsException e) {
+			e.printStackTrace();
+			AlertBoxClass.ErrBox("ERROR", "You entered invalid Active OR Dead Backlog!");
+		} catch (NameException e) {
+			e.printStackTrace();
+			AlertBoxClass.ErrBox("ERROR", "Invalid Company name entered!");
 		} catch (Exception e) {
-			AlertBoxClass.Amber("ERROR","Missing/invalid values");
+			e.printStackTrace();
+			AlertBoxClass.ErrBox("ERROR", "Empty fields!");
 		}
 	}
 

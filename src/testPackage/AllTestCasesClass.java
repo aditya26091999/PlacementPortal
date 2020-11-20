@@ -18,25 +18,25 @@ public class AllTestCasesClass {
 //		return studReg;
 //	}
 
-	public boolean getdelStudRegResult(int msn) {
-		delStudReg = DatabaseOperations.removeSelectedStudent(msn);
-		return delStudReg;
-	}
+//	public boolean getdelStudRegResult(int msn) {
+//		delStudReg = DatabaseOperations.removeSelectedStudent(msn);
+//		return delStudReg;
+//	}
+//
+//	public boolean getDelDriveResult(int DriveID) {
+//		delDrive = DatabaseOperations.removeSelectedDrive(DriveID);
+//		return delDrive;
+//	}
+//
+//	public boolean studApplyForDrive(int driveid, int msn) {
+//		applyDrive = DatabaseOperations.applyForDrive(driveid, msn);
+//		return applyDrive;
+//	}
 
-	public boolean getDelDriveResult(int DriveID) {
-		delDrive = DatabaseOperations.removeSelectedDrive(DriveID);
-		return delDrive;
-	}
-
-	public boolean studApplyForDrive(int driveid, int msn) {
-		applyDrive = DatabaseOperations.applyForDrive(driveid, msn);
-		return applyDrive;
-	}
-
-	public boolean getAddDriveToDBResult(String cname, String cdate, String xthMin, String xIIthMin, String BEMin,
-			String deadBack, String liveBack, String branch, String ctc) {
-		addDriveToDB = DatabaseOperations.addDriveToDatabase(cname, cdate, xthMin, xIIthMin, BEMin, deadBack, liveBack,
-				branch, ctc);
-		return addDriveToDB;
-	}
+//	public boolean getAddDriveToDBResult(String cname, String cdate, String xthMin, String xIIthMin, String BEMin,
+//			String deadBack, String liveBack, String branch, String ctc) {
+//		addDriveToDB = DatabaseOperations.addDriveToDatabase(cname, cdate, xthMin, xIIthMin, BEMin, deadBack, liveBack,
+//				branch, ctc);
+//		return addDriveToDB;
+//	}
 }

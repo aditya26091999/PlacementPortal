@@ -7,11 +7,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.prefs.BackingStoreException;
 
 import application.Main;
+import exceptionPack.BackLogOutOfBoundsException;
+import exceptionPack.CtcOutOfBoundsException;
 import exceptionPack.EmailFormatException;
 import exceptionPack.EmptyFieldsException;
 import exceptionPack.NameException;
+import exceptionPack.PercentageOutOfBoundsException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -23,10 +27,24 @@ public class DatabaseOperations {
 	public static Integer getMsn = 0;
 	public static boolean returnRes = false;
 
-	public static boolean addDriveToDatabase(String cname, String cdate, String xthMin, String xIIthMin, String BEMin,
-			String deadBack, String liveBack, String branch, String ctc) {
-		res = false;
-		try {
+	public static int addDriveToDatabase(String cname, String cdate, String xthMin, String xIIthMin, String BEMin,
+			String deadBack, String liveBack, String branch, String ctc)
+			throws EmptyFieldsException, NumberFormatException, SQLException, ClassNotFoundException,
+			PercentageOutOfBoundsException, BackingStoreException, CtcOutOfBoundsException, BackLogOutOfBoundsException, NameException {
+		int i = 0;
+		if (DataEntryValidation.checkEmptyFields(cname, cdate, xthMin, xIIthMin, BEMin, deadBack, liveBack, ctc)) {
+			throw new EmptyFieldsException("User left some fields empty!");
+		} else if (DataEntryValidation.checkpercFields(Integer.parseInt(xthMin), Integer.parseInt(xIIthMin),
+				Integer.parseInt(BEMin))) {
+			throw new PercentageOutOfBoundsException("Invalid percentage value");
+		} else if (DataEntryValidation.checkBacklogField(Integer.parseInt(deadBack), Integer.parseInt(liveBack))) {
+			throw new BackLogOutOfBoundsException("Invalid Live OR Dead backlog entries");
+		} else if (DataEntryValidation.checkCtcField(Float.parseFloat(ctc))) {
+			throw new CtcOutOfBoundsException("Invalid CTC value");
+		} else if(DataEntryValidation.checkCompName(cname)) {
+			throw new NameException("Invalid Company name");
+		}
+		else {
 			String query = "INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			query = String.format(query, Main.Constants.DRIVE_TABLE_NAME, DriveDataAccessClass.Constants.COMP_NAME,
 					DriveDataAccessClass.Constants.COMP_DATE, DriveDataAccessClass.Constants.COMP_X_MIN,
@@ -47,26 +65,12 @@ public class DatabaseOperations {
 			ps.setInt(7, Integer.parseInt(liveBack));
 			ps.setString(8, branch);
 			ps.setFloat(9, Float.parseFloat(ctc));
-			int i = ps.executeUpdate();
+			i = ps.executeUpdate();
 
-			if (i > 0) {
-				res = true;
-				returnRes = true;
-			} else {
-				res = false;
-				returnRes = false;
-			}
 			ps.close();
 			conn.close();
-		} catch (NumberFormatException nume) {
-			returnRes = false;
-			// AlertBoxClass.ErrBox("Error", "Enter valid drive details!");
-		} catch (Exception e) {
-			// AlertBoxClass.ErrBox("ERROR", "Falied to add Drive to Database!");
-			e.printStackTrace();
-			returnRes = false;
 		}
-		return res;
+		return i;
 	}
 
 	public static int addStudentToDatabase(Integer msn, String fname, String lname, String email, String branch,
