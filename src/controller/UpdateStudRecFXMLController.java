@@ -1,9 +1,13 @@
 package controller;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import alertBoxPack.AlertBoxClass;
+import exceptionPack.EmailFormatException;
+import exceptionPack.EmptyFieldsException;
+import exceptionPack.NameException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,7 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
 
 import javafx.scene.layout.AnchorPane;
-import model.DataEntryValidation;
+import model.DatabaseOperations;
 import screenPack.ScreenPackClass;
 
 public class UpdateStudRecFXMLController implements Initializable {
@@ -46,23 +50,26 @@ public class UpdateStudRecFXMLController implements Initializable {
 	}
 
 	@FXML
-	void updateRecord(ActionEvent event) {
+	void updateRecord(ActionEvent event) throws ClassNotFoundException, SQLException, NameException {
+		String fname = firstName.getText();
+		String lname = lastName.getText();
+		String email = emailAddress.getText();
+		String branch = studentBranch.getValue().toString();
+		String college = studentCollege.getValue().toString();
+		int msn = AdminDashBoardFXMLController.msn;
 		try {
-			boolean isFieldEmpty = DataEntryValidation.checkEmptyFields(firstName.getText(), lastName.getText(),
-					emailAddress.getText(), studentBranch.getValue().toString(), studentCollege.getValue().toString());
-
-			if (isFieldEmpty) {
-				AlertBoxClass.Amber("Missing Fields", "You left some fields empty!");
-			} else {
-				if (!DataEntryValidation.checkEmailRegex(emailAddress.getText())) {
-					AlertBoxClass.ErrBox("ERROR", "Enter a Valid Email address!");
-				} else {
-				}
-			}
-
-		} catch (Exception e) {
+			int i = DatabaseOperations.updateStudent(msn, fname, lname, email, branch, college);
+			if (i > 0)
+				AlertBoxClass.Notify("SUCCESS", "Student record updated!");
+		} catch (EmptyFieldsException e) {
 			e.printStackTrace();
-			AlertBoxClass.Amber("Missing Option", "Please select a dept AND College");
+			AlertBoxClass.ErrBox("ERROR", "You left some fields empty!");
+		} catch (EmailFormatException e) {
+			e.printStackTrace();
+			AlertBoxClass.ErrBox("ERROR", "Invalid Email!");
+		} catch (NameException e) {
+			e.printStackTrace();
+			AlertBoxClass.ErrBox("ERROR", "Invalid First name or Last name!");
 		}
 	}
 

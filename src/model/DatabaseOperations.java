@@ -8,10 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import alertBoxPack.AlertBoxClass;
 import application.Main;
 import exceptionPack.EmailFormatException;
 import exceptionPack.EmptyFieldsException;
+import exceptionPack.NameException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -60,9 +60,9 @@ public class DatabaseOperations {
 			conn.close();
 		} catch (NumberFormatException nume) {
 			returnRes = false;
-			//AlertBoxClass.ErrBox("Error", "Enter valid drive details!");
+			// AlertBoxClass.ErrBox("Error", "Enter valid drive details!");
 		} catch (Exception e) {
-			//AlertBoxClass.ErrBox("ERROR", "Falied to add Drive to Database!");
+			// AlertBoxClass.ErrBox("ERROR", "Falied to add Drive to Database!");
 			e.printStackTrace();
 			returnRes = false;
 		}
@@ -70,40 +70,39 @@ public class DatabaseOperations {
 	}
 
 	public static int addStudentToDatabase(Integer msn, String fname, String lname, String email, String branch,
-			String college, String studPass) throws ClassNotFoundException, SQLException, EmptyFieldsException, EmailFormatException {
+			String college, String studPass)
+			throws ClassNotFoundException, SQLException, EmptyFieldsException, EmailFormatException, NameException {
 		int i = 0;
-			if(DataEntryValidation.checkEmptyFields(fname, lname, Integer.toString(msn), email, branch, college)) {
-				throw new EmptyFieldsException("User left some fields empty");
-			}
-			else if(DataEntryValidation.checkEmailRegex(email)) {
-				throw new EmailFormatException("User entered an incorrect email");
-			}
-			else if(DataEntryValidation.checkMsnLoginNumber(Integer.toString(msn))) {
-				throw new NumberFormatException();
-			}
-			else {
-				String query = "INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?)";
-				query = String.format(query, Main.Constants.STUDENT_TABLE_NAME,
-						StudentDataAccessClass.Constants.STUD_MSN, StudentDataAccessClass.Constants.STUD_FNAME,
-						StudentDataAccessClass.Constants.STUD_LNAME, StudentDataAccessClass.Constants.STUD_EMAIL,
-						StudentDataAccessClass.Constants.STUD_BRANCH, StudentDataAccessClass.Constants.STUD_COLLEGE,
-						StudentDataAccessClass.Constants.STUD_PASS);
-				String ConnURL = Main.Constants.CONNECTION_URL;
-				Class.forName(Main.Constants.CLASS_FOR_NAME);
-				Connection conn = DriverManager.getConnection(ConnURL);
-				PreparedStatement ps = conn.prepareStatement(query);
-				ps.setInt(1, msn);
-				ps.setString(2, fname);
-				ps.setString(3, lname);
-				ps.setString(4, email);
-				ps.setString(5, branch);
-				ps.setString(6, college);
-				ps.setString(7, studPass);
-				i = ps.executeUpdate();
-				
-				ps.close();
-				conn.close();
-			}
+		if (DataEntryValidation.checkEmptyFields(fname, lname, Integer.toString(msn), email, branch, college)) {
+			throw new EmptyFieldsException("User left some fields empty");
+		} else if (DataEntryValidation.checkEmailRegex(email)) {
+			throw new EmailFormatException("User entered an incorrect email");
+		} else if (DataEntryValidation.checkMsnLoginNumber(Integer.toString(msn))) {
+			throw new NumberFormatException();
+		} else if (DataEntryValidation.checkFnameAndLname(fname, lname)) {
+			throw new NameException("User entered an invalid Fname or Lname");
+		} else {
+			String query = "INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?)";
+			query = String.format(query, Main.Constants.STUDENT_TABLE_NAME, StudentDataAccessClass.Constants.STUD_MSN,
+					StudentDataAccessClass.Constants.STUD_FNAME, StudentDataAccessClass.Constants.STUD_LNAME,
+					StudentDataAccessClass.Constants.STUD_EMAIL, StudentDataAccessClass.Constants.STUD_BRANCH,
+					StudentDataAccessClass.Constants.STUD_COLLEGE, StudentDataAccessClass.Constants.STUD_PASS);
+			String ConnURL = Main.Constants.CONNECTION_URL;
+			Class.forName(Main.Constants.CLASS_FOR_NAME);
+			Connection conn = DriverManager.getConnection(ConnURL);
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setInt(1, msn);
+			ps.setString(2, fname);
+			ps.setString(3, lname);
+			ps.setString(4, email);
+			ps.setString(5, branch);
+			ps.setString(6, college);
+			ps.setString(7, studPass);
+			i = ps.executeUpdate();
+
+			ps.close();
+			conn.close();
+		}
 		return i;
 	}
 
@@ -227,8 +226,7 @@ public class DatabaseOperations {
 	public static boolean removeSelectedStudent(int msn) {
 		try {
 			String query = "DELETE FROM %s WHERE %s = ?";
-			query = String.format(query, Main.Constants.STUDENT_TABLE_NAME,
-					StudentDataAccessClass.Constants.STUD_MSN);
+			query = String.format(query, Main.Constants.STUDENT_TABLE_NAME, StudentDataAccessClass.Constants.STUD_MSN);
 			String ConnURL = Main.Constants.CONNECTION_URL;
 			Class.forName(Main.Constants.CLASS_FOR_NAME);
 			Connection conn = DriverManager.getConnection(ConnURL);
@@ -287,13 +285,13 @@ public class DatabaseOperations {
 
 			if (i > 0) {
 				res = true;
-				//AlertBoxClass.Notify("SUCCESS", "Applied for " + dname + " drive");
+				// AlertBoxClass.Notify("SUCCESS", "Applied for " + dname + " drive");
 			} else
 				res = false;
 			ps.close();
 			conn.close();
 		} catch (Exception e) {
-			//AlertBoxClass.Amber("ALERT", "Already applied to the drive!");
+			// AlertBoxClass.Amber("ALERT", "Already applied to the drive!");
 			e.printStackTrace();
 			res = false;
 		}
@@ -303,8 +301,8 @@ public class DatabaseOperations {
 	public static boolean checkLoginCred(String uname, String pwd) {
 		try {
 			String query = "SELECT * FROM %s WHERE %s = ? and %s = ?";
-			query = String.format(query, Main.Constants.ADMIN_TABLE_NAME,
-					AdminDataAccessClass.Constants.ADMIN_UNAME, AdminDataAccessClass.Constants.ADMIN_PASSWD);
+			query = String.format(query, Main.Constants.ADMIN_TABLE_NAME, AdminDataAccessClass.Constants.ADMIN_UNAME,
+					AdminDataAccessClass.Constants.ADMIN_PASSWD);
 			String ConnURL = Main.Constants.CONNECTION_URL;
 			Class.forName(Main.Constants.CLASS_FOR_NAME);
 			Connection conn = DriverManager.getConnection(ConnURL);
@@ -330,8 +328,8 @@ public class DatabaseOperations {
 	public static boolean checkLoginCred(Integer msn, String pwd) {
 		try {
 			String query = "SELECT * FROM %s WHERE %s = ? and %s = ?";
-			query = String.format(query, Main.Constants.STUDENT_TABLE_NAME,
-					StudentDataAccessClass.Constants.STUD_MSN, StudentDataAccessClass.Constants.STUD_PASS);
+			query = String.format(query, Main.Constants.STUDENT_TABLE_NAME, StudentDataAccessClass.Constants.STUD_MSN,
+					StudentDataAccessClass.Constants.STUD_PASS);
 			String ConnURL = Main.Constants.CONNECTION_URL;
 			Class.forName(Main.Constants.CLASS_FOR_NAME);
 			Connection conn = DriverManager.getConnection(ConnURL);
@@ -358,8 +356,8 @@ public class DatabaseOperations {
 		String fname = "NAN";
 		try {
 			String query = "SELECT %s FROM %s WHERE %s = ?";
-			query = String.format(query, StudentDataAccessClass.Constants.STUD_FNAME,
-					Main.Constants.STUDENT_TABLE_NAME, StudentDataAccessClass.Constants.STUD_MSN);
+			query = String.format(query, StudentDataAccessClass.Constants.STUD_FNAME, Main.Constants.STUDENT_TABLE_NAME,
+					StudentDataAccessClass.Constants.STUD_MSN);
 
 			String ConnURL = Main.Constants.CONNECTION_URL;
 			Class.forName(Main.Constants.CLASS_FOR_NAME);
@@ -438,9 +436,16 @@ public class DatabaseOperations {
 		return compNames;
 	}
 
-	public static boolean updateStudent(Integer msn, String fname, String lname, String email, String branch,
-			String college) {
-		try {
+	public static int updateStudent(int msn, String fname, String lname, String email, String branch, String college)
+			throws EmailFormatException, ClassNotFoundException, SQLException, EmptyFieldsException, NameException {
+		int i = 0;
+		if (DataEntryValidation.checkEmailRegex(email)) {
+			throw new EmailFormatException("User entered incorrect email ID");
+		} else if (DataEntryValidation.checkEmptyFields(fname, lname, email, branch, college)) {
+			throw new EmptyFieldsException("User left some fields empty");
+		} else if (DataEntryValidation.checkFnameAndLname(fname, lname)) {
+			throw new NameException("User entered invalid Fname OR Lname");
+		} else {
 			String query = "UPDATE Student SET fname = ?, lname = ?, email = ?, branch = ?, college = ? WHERE msn = ?";
 			String ConnURL = Main.Constants.CONNECTION_URL;
 			Class.forName(Main.Constants.CLASS_FOR_NAME);
@@ -452,20 +457,10 @@ public class DatabaseOperations {
 			ps.setString(4, branch);
 			ps.setString(5, college);
 			ps.setInt(6, msn);
-			int i = ps.executeUpdate();
-			if (i > 0) {
-				res = true;
-				AlertBoxClass.Notify("SUCCESS", "Student record updated!");
-			} else {
-				res = false;
-			}
+			i = ps.executeUpdate();
 			ps.close();
 			conn.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			res = false;
-			AlertBoxClass.ErrBox("WARNING", "Master Serial Number OR Email already exists! Have another go.");
 		}
-		return res;
+		return i;
 	}
 }

@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import alertBoxPack.AlertBoxClass;
 import exceptionPack.EmailFormatException;
 import exceptionPack.EmptyFieldsException;
+import exceptionPack.NameException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -47,7 +48,8 @@ public class AddNewStudentFXMLController implements Initializable {
 			"Mechanical");
 
 	@FXML
-	void addStudentDatabase(ActionEvent event) throws ClassNotFoundException, SQLException, EmptyFieldsException {
+	void addStudentDatabase(ActionEvent event)
+			throws ClassNotFoundException, SQLException, EmptyFieldsException, NameException {
 		try {
 			int msn = Integer.parseInt(masterSerialNum.getText());
 			String fname = firstName.getText();
@@ -58,22 +60,24 @@ public class AddNewStudentFXMLController implements Initializable {
 
 			int i = DatabaseOperations.addStudentToDatabase(msn, fname, lname, email, branch, college,
 					GeneratePasswordClass.generatePassword(20));
-			if(i>0) {
-				AlertBoxClass.Notify("SUCCESS", "Student "+msn+" Added!");
+			if (i > 0) {
+				AlertBoxClass.Notify("SUCCESS", "Student " + msn + " Added!");
 			}
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
-			AlertBoxClass.Amber("INCORRECT MSN", "Please enter a proper MSN!");
+			AlertBoxClass.ErrBox("INCORRECT MSN", "Please enter a proper MSN!");
 		} catch (EmailFormatException e) {
 			e.printStackTrace();
-			AlertBoxClass.Amber("INCORRECT EMAIL", "Incorrect Email");
+			AlertBoxClass.ErrBox("INCORRECT EMAIL", "Incorrect Email");
 		} catch (EmptyFieldsException e) {
 			e.printStackTrace();
-			AlertBoxClass.Amber("EMPTY FILEDS", "You left some fields empty!");
+			AlertBoxClass.ErrBox("EMPTY FILEDS", "You left some fields empty!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			AlertBoxClass.ErrBox("ERROR", "Email or MSN conflict!");
-		} 
+		} catch (NameException e) {
+			AlertBoxClass.ErrBox("ERROR", "Incorrect Fname or Lname!");
+		}
 	}
 
 	@FXML
