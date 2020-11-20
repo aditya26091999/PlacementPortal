@@ -1,9 +1,12 @@
 package controller;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import alertBoxPack.AlertBoxClass;
+import exceptionPack.EmailFormatException;
+import exceptionPack.EmptyFieldsException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,7 +16,6 @@ import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import model.DataEntryValidation;
 import model.DatabaseOperations;
 import model.GeneratePasswordClass;
 import screenPack.ScreenPackClass;
@@ -45,33 +47,33 @@ public class AddNewStudentFXMLController implements Initializable {
 			"Mechanical");
 
 	@FXML
-	void addStudentDatabase(ActionEvent event) {
-		boolean addStudToDB;
+	void addStudentDatabase(ActionEvent event) throws ClassNotFoundException, SQLException, EmptyFieldsException {
 		try {
-			boolean isFieldEmpty = DataEntryValidation.checkEmptyFields(firstName.getText(), lastName.getText(),
-					masterSerialNum.getText(), emailAddress.getText(), studentBranch.getValue().toString(),
-					studentCollege.getValue().toString());
+			int msn = Integer.parseInt(masterSerialNum.getText());
+			String fname = firstName.getText();
+			String lname = lastName.getText();
+			String email = emailAddress.getText();
+			String branch = studentBranch.getValue().toString();
+			String college = studentCollege.getValue().toString();
 
-			if (isFieldEmpty) {
-				AlertBoxClass.Amber("Missing Fields", "You left some fields empty!");
-			} else {
-				if (!DataEntryValidation.checkEmailRegex(emailAddress.getText())) {
-					AlertBoxClass.ErrBox("ERROR", "Enter a Valid Email address!");
-				} else {
-					addStudToDB = DatabaseOperations.addStudentToDatabase(Integer.parseInt(masterSerialNum.getText()),
-							firstName.getText(), lastName.getText(), emailAddress.getText(),
-							studentBranch.getValue().toString(), studentCollege.getValue().toString(),
-							GeneratePasswordClass.generatePassword(20));
-					if (addStudToDB) {
-						System.out.println("Student database operation performed!");
-					}
-				}
+			int i = DatabaseOperations.addStudentToDatabase(msn, fname, lname, email, branch, college,
+					GeneratePasswordClass.generatePassword(20));
+			if(i>0) {
+				AlertBoxClass.Notify("SUCCESS", "Student "+msn+" Added!");
 			}
-
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			e.printStackTrace();
-			AlertBoxClass.Amber("Missing Option", "Please select a dept AND College");
-		}
+			AlertBoxClass.Amber("INCORRECT MSN", "Please enter a proper MSN!");
+		} catch (EmailFormatException e) {
+			e.printStackTrace();
+			AlertBoxClass.Amber("INCORRECT EMAIL", "Incorrect Email");
+		} catch (EmptyFieldsException e) {
+			e.printStackTrace();
+			AlertBoxClass.Amber("EMPTY FILEDS", "You left some fields empty!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			AlertBoxClass.ErrBox("ERROR", "Email or MSN conflict!");
+		} 
 	}
 
 	@FXML

@@ -15,17 +15,17 @@ public class SidTestCases {
 		obj = new AllTestCasesClass();
 	}
 
-	@Test
-	public void StudentRegTestCasePass() throws Exception {
-		res = obj.getStudRegResult(104, "John", "Doe", "John_DOE@gmail.com", "Computer", "PCCoE", "Test");
-		assertTrue(res);
-	}
-
-	@Test
-	public void StudentRegTestCaseFail() throws Exception {
-		res = obj.getStudRegResult(103, "Tim", "test", "timTest@gmail.com", null, "PCCoE", "Testtwo");
-		assertTrue(res);
-	}
+//	@Test
+//	public void StudentRegTestCasePass() throws Exception {
+//		res = obj.getStudRegResult(104, "John", "Doe", "John_DOE@gmail.com", "Computer", "PCCoE", "Test");
+//		assertTrue(res);
+//	}
+//
+//	@Test
+//	public void StudentRegTestCaseFail() throws Exception {
+//		res = obj.getStudRegResult(103, "Tim", "test", "timTest@gmail.com", null, "PCCoE", "Testtwo");
+//		assertTrue(res);
+//	}
 	
 	@Test
 	public void DeleteStudentTestPass() throws Exception {

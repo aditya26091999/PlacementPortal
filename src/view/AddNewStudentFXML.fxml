@@ -24,20 +24,20 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="70.0" layoutY="328.0" prefHeight="30.0" prefWidth="215.0" text="Master Serial Number">
+      <Label layoutX="70.0" layoutY="328.0" prefHeight="30.0" prefWidth="235.0" text="Master Serial Number">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="70.0" layoutY="423.0" prefHeight="30.0" prefWidth="176.0" text="Email Address">
+      <Label layoutX="70.0" layoutY="423.0" prefHeight="30.0" prefWidth="163.0" text="Email Address">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="firstName" layoutX="182.0" layoutY="159.0" prefHeight="26.0" prefWidth="205.0" />
-      <TextField fx:id="lastName" layoutX="182.0" layoutY="237.0" prefHeight="26.0" prefWidth="205.0" />
-      <TextField fx:id="masterSerialNum" layoutX="276.0" layoutY="330.0" prefHeight="26.0" prefWidth="205.0" />
-      <TextField fx:id="emailAddress" layoutX="208.0" layoutY="425.0" prefHeight="26.0" prefWidth="205.0" />
+      <TextField fx:id="firstName" layoutX="194.0" layoutY="157.0" prefHeight="26.0" prefWidth="205.0" />
+      <TextField fx:id="lastName" layoutX="194.0" layoutY="235.0" prefHeight="26.0" prefWidth="205.0" />
+      <TextField fx:id="masterSerialNum" layoutX="311.0" layoutY="330.0" prefHeight="26.0" prefWidth="205.0" />
+      <TextField fx:id="emailAddress" layoutX="233.0" layoutY="425.0" prefHeight="26.0" prefWidth="205.0" />
       <Label layoutX="501.0" layoutY="169.0" prefHeight="26.0" prefWidth="114.0" text="Branch">
          <font>
             <Font size="15.0" />

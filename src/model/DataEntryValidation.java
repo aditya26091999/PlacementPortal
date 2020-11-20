@@ -49,31 +49,37 @@ public class DataEntryValidation {
         return false;
 	}
 	
+	public static boolean checkFnameAndLname(String fname, String lname) {
+		
+		
+		return false;
+	}
+	
 	public static boolean checkEmailRegex(String email) {
 		String EmailRegex = "^(.+)@(.+)$";
 		Pattern patt = Pattern.compile(EmailRegex);
 		Matcher match = patt.matcher(email);
 		if(match.matches())
-			return true;
-		else
 			return false;
+		else
+			return true;
 	}
 	
 	public static boolean checkpercFields(int XthPer, int XIIthPer, int BEPer) {
 		if(XthPer > 100 || XIIthPer > 100 || BEPer > 100)
-			return false;
-		if(XthPer < 55 || XIIthPer < 55 || BEPer < 55 )
-			return false;
-		else
 			return true;
+		if(XthPer < 55 || XIIthPer < 55 || BEPer < 55 )
+			return true;
+		else
+			return false;
 	}
 	
 	public static boolean checkBacklogField(int deadBack, int liveBack) {
 		if(deadBack > 5 || liveBack > 5)
-			return false;
-		if(deadBack < 0 || liveBack < 0)
-			return false;
-		else
 			return true;
+		if(deadBack < 0 || liveBack < 0)
+			return true;
+		else
+			return false;
 	}
 }

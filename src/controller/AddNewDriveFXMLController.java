@@ -105,10 +105,10 @@ public class AddNewDriveFXMLController {
 						department = department.substring(0, department.length() - 1);
 					}
 				}
-				if(!DataEntryValidation.checkpercFields(Integer.parseInt(TenthMinPerc.getText()), Integer.parseInt(TwelthMinPerc.getText()), Integer.parseInt(BEMinPerc.getText()))) {
+				if(DataEntryValidation.checkpercFields(Integer.parseInt(TenthMinPerc.getText()), Integer.parseInt(TwelthMinPerc.getText()), Integer.parseInt(BEMinPerc.getText()))) {
 					AlertBoxClass.ErrBox("Invalid Percentages", "Percentage fields contain invalid data!");
 				}
-				if(!DataEntryValidation.checkBacklogField(Integer.parseInt(MaxDeadBacks.getText()), Integer.parseInt(MaxActiveBacks.getText()))) {
+				if(DataEntryValidation.checkBacklogField(Integer.parseInt(MaxDeadBacks.getText()), Integer.parseInt(MaxActiveBacks.getText()))) {
 					AlertBoxClass.ErrBox("Invalid Backlog entry", "Check Dead or Active backlog fields again!");
 				}
 				else {

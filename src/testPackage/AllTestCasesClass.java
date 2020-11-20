@@ -11,12 +11,12 @@ public class AllTestCasesClass {
 	public static boolean applyDrive;
 	public static boolean addDriveToDB;
 
-	public boolean getStudRegResult(int msn, String fname, String lname, String email, String branch, String college,
-			String studPass) throws ClassNotFoundException, SQLException {
-		studReg = DatabaseOperations.addStudentToDatabase(msn, fname, lname, email, branch, college, studPass);
-		System.out.println(studReg);
-		return studReg;
-	}
+//	public boolean getStudRegResult(int msn, String fname, String lname, String email, String branch, String college,
+//			String studPass) throws ClassNotFoundException, SQLException {
+//		studReg = DatabaseOperations.addStudentToDatabase(msn, fname, lname, email, branch, college, studPass);
+//		System.out.println(studReg);
+//		return studReg;
+//	}
 
 	public boolean getdelStudRegResult(int msn) {
 		delStudReg = DatabaseOperations.removeSelectedStudent(msn);

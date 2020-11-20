@@ -10,6 +10,8 @@ import java.util.List;
 
 import alertBoxPack.AlertBoxClass;
 import application.Main;
+import exceptionPack.EmailFormatException;
+import exceptionPack.EmptyFieldsException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -25,8 +27,8 @@ public class DatabaseOperations {
 			String deadBack, String liveBack, String branch, String ctc) {
 		res = false;
 		try {
-			String raw = "INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			String query = String.format(raw, Main.Constants.DRIVE_TABLE_NAME, DriveDataAccessClass.Constants.COMP_NAME,
+			String query = "INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			query = String.format(query, Main.Constants.DRIVE_TABLE_NAME, DriveDataAccessClass.Constants.COMP_NAME,
 					DriveDataAccessClass.Constants.COMP_DATE, DriveDataAccessClass.Constants.COMP_X_MIN,
 					DriveDataAccessClass.Constants.COMP_XII_MIN, DriveDataAccessClass.Constants.COMP_BE_MIN,
 					DriveDataAccessClass.Constants.COMP_MAX_DEAD_BACK,
@@ -67,49 +69,49 @@ public class DatabaseOperations {
 		return res;
 	}
 
-	public static boolean addStudentToDatabase(Integer msn, String fname, String lname, String email, String branch,
-			String college, String studPass) throws ClassNotFoundException, SQLException {
-		try {
-			String raw = "INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?)";
-			String query = String.format(raw, Main.Constants.STUDENT_TABLE_NAME,
-					StudentDataAccessClass.Constants.STUD_MSN, StudentDataAccessClass.Constants.STUD_FNAME,
-					StudentDataAccessClass.Constants.STUD_LNAME, StudentDataAccessClass.Constants.STUD_EMAIL,
-					StudentDataAccessClass.Constants.STUD_BRANCH, StudentDataAccessClass.Constants.STUD_COLLEGE,
-					StudentDataAccessClass.Constants.STUD_PASS);
-			String ConnURL = Main.Constants.CONNECTION_URL;
-			Class.forName(Main.Constants.CLASS_FOR_NAME);
-			Connection conn = DriverManager.getConnection(ConnURL);
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, msn);
-			ps.setString(2, fname);
-			ps.setString(3, lname);
-			ps.setString(4, email);
-			ps.setString(5, branch);
-			ps.setString(6, college);
-			ps.setString(7, studPass);
-			int i = ps.executeUpdate();
-			if (i > 0) {
-				res = true;
-				// AlertBoxClass.Notify("SUCCESS", "Student Added to database!");
-			} else
-				res = false;
-			ps.close();
-			conn.close();
-		} catch (Exception e) {
-			// AlertBoxClass.ErrBox("ERROR", "Master Serial Number Conflict OR Email
-			// conflict!");
-			System.out.println("Failed to insert data!");
-			e.printStackTrace();
-			res = false;
-		}
-		return res;
+	public static int addStudentToDatabase(Integer msn, String fname, String lname, String email, String branch,
+			String college, String studPass) throws ClassNotFoundException, SQLException, EmptyFieldsException, EmailFormatException {
+		int i = 0;
+			if(DataEntryValidation.checkEmptyFields(fname, lname, Integer.toString(msn), email, branch, college)) {
+				throw new EmptyFieldsException("User left some fields empty");
+			}
+			else if(DataEntryValidation.checkEmailRegex(email)) {
+				throw new EmailFormatException("User entered an incorrect email");
+			}
+			else if(DataEntryValidation.checkMsnLoginNumber(Integer.toString(msn))) {
+				throw new NumberFormatException();
+			}
+			else {
+				String query = "INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?)";
+				query = String.format(query, Main.Constants.STUDENT_TABLE_NAME,
+						StudentDataAccessClass.Constants.STUD_MSN, StudentDataAccessClass.Constants.STUD_FNAME,
+						StudentDataAccessClass.Constants.STUD_LNAME, StudentDataAccessClass.Constants.STUD_EMAIL,
+						StudentDataAccessClass.Constants.STUD_BRANCH, StudentDataAccessClass.Constants.STUD_COLLEGE,
+						StudentDataAccessClass.Constants.STUD_PASS);
+				String ConnURL = Main.Constants.CONNECTION_URL;
+				Class.forName(Main.Constants.CLASS_FOR_NAME);
+				Connection conn = DriverManager.getConnection(ConnURL);
+				PreparedStatement ps = conn.prepareStatement(query);
+				ps.setInt(1, msn);
+				ps.setString(2, fname);
+				ps.setString(3, lname);
+				ps.setString(4, email);
+				ps.setString(5, branch);
+				ps.setString(6, college);
+				ps.setString(7, studPass);
+				i = ps.executeUpdate();
+				
+				ps.close();
+				conn.close();
+			}
+		return i;
 	}
 
 	public static ObservableList<Drive> getCompanyDetails() {
 		ObservableList<Drive> list = FXCollections.observableArrayList();
 		try {
-			String raw = "SELECT * FROM %s";
-			String query = String.format(raw, Main.Constants.DRIVE_TABLE_NAME);
+			String query = "SELECT * FROM %s";
+			query = String.format(query, Main.Constants.DRIVE_TABLE_NAME);
 			String ConnURL = Main.Constants.CONNECTION_URL;
 			Class.forName(Main.Constants.CLASS_FOR_NAME);
 			Connection conn = DriverManager.getConnection(ConnURL);
@@ -140,8 +142,8 @@ public class DatabaseOperations {
 	public static ObservableList<Student> getStudentDetails() {
 		ObservableList<Student> list = FXCollections.observableArrayList();
 		try {
-			String raw = "SELECT * FROM %s";
-			String query = String.format(raw, Main.Constants.STUDENT_TABLE_NAME);
+			String query = "SELECT * FROM %s";
+			query = String.format(query, Main.Constants.STUDENT_TABLE_NAME);
 			String ConnURL = Main.Constants.CONNECTION_URL;
 			Class.forName(Main.Constants.CLASS_FOR_NAME);
 			Connection conn = DriverManager.getConnection(ConnURL);
@@ -169,8 +171,8 @@ public class DatabaseOperations {
 	public static ObservableList<Drive> getYourDriveDetails(Integer msn) {
 		ObservableList<Drive> list = FXCollections.observableArrayList();
 		try {
-			String raw = "SELECT %s, %s, %s FROM %s INNER JOIN %s WHERE %s.%s = %s.%s AND %s.%s = ?";
-			String query = String.format(raw, DriveDataAccessClass.Constants.COMP_NAME,
+			String query = "SELECT %s, %s, %s FROM %s INNER JOIN %s WHERE %s.%s = %s.%s AND %s.%s = ?";
+			query = String.format(query, DriveDataAccessClass.Constants.COMP_NAME,
 					DriveDataAccessClass.Constants.COMP_DATE, DriveDataAccessClass.Constants.COMP_CTC,
 					Main.Constants.DRIVE_TABLE_NAME, Main.Constants.STUD_DRIVE_APPLY_TAB,
 					Main.Constants.DRIVE_TABLE_NAME, DriveDataAccessClass.Constants.COMP_ID,
@@ -199,8 +201,8 @@ public class DatabaseOperations {
 
 	public static boolean removeSelectedDrive(int DriveID) {
 		try {
-			String raw = "DELETE FROM %s WHERE %s = ?";
-			String query = String.format(raw, Main.Constants.DRIVE_TABLE_NAME, DriveDataAccessClass.Constants.COMP_ID);
+			String query = "DELETE FROM %s WHERE %s = ?";
+			query = String.format(query, Main.Constants.DRIVE_TABLE_NAME, DriveDataAccessClass.Constants.COMP_ID);
 			String ConnURL = Main.Constants.CONNECTION_URL;
 			Class.forName(Main.Constants.CLASS_FOR_NAME);
 			Connection conn = DriverManager.getConnection(ConnURL);
@@ -224,8 +226,8 @@ public class DatabaseOperations {
 
 	public static boolean removeSelectedStudent(int msn) {
 		try {
-			String raw = "DELETE FROM %s WHERE %s = ?";
-			String query = String.format(raw, Main.Constants.STUDENT_TABLE_NAME,
+			String query = "DELETE FROM %s WHERE %s = ?";
+			query = String.format(query, Main.Constants.STUDENT_TABLE_NAME,
 					StudentDataAccessClass.Constants.STUD_MSN);
 			String ConnURL = Main.Constants.CONNECTION_URL;
 			Class.forName(Main.Constants.CLASS_FOR_NAME);
@@ -272,8 +274,8 @@ public class DatabaseOperations {
 	public static boolean applyForDrive(int driveid, int studid) {
 		try {
 			res = true;
-			String raw = "INSERT INTO %s (%s, %s) VALUES (?, ?)";
-			String query = String.format(raw, Main.Constants.STUD_DRIVE_APPLY_TAB,
+			String query = "INSERT INTO %s (%s, %s) VALUES (?, ?)";
+			query = String.format(query, Main.Constants.STUD_DRIVE_APPLY_TAB,
 					StudentDriveDataAccessClass.Constants.DRIVE_ID, StudentDriveDataAccessClass.Constants.STUD_ID);
 			String ConnURL = Main.Constants.CONNECTION_URL;
 			Class.forName(Main.Constants.CLASS_FOR_NAME);
@@ -300,8 +302,8 @@ public class DatabaseOperations {
 
 	public static boolean checkLoginCred(String uname, String pwd) {
 		try {
-			String raw = "SELECT * FROM %s WHERE %s = ? and %s = ?";
-			String query = String.format(raw, Main.Constants.ADMIN_TABLE_NAME,
+			String query = "SELECT * FROM %s WHERE %s = ? and %s = ?";
+			query = String.format(query, Main.Constants.ADMIN_TABLE_NAME,
 					AdminDataAccessClass.Constants.ADMIN_UNAME, AdminDataAccessClass.Constants.ADMIN_PASSWD);
 			String ConnURL = Main.Constants.CONNECTION_URL;
 			Class.forName(Main.Constants.CLASS_FOR_NAME);
@@ -327,8 +329,8 @@ public class DatabaseOperations {
 
 	public static boolean checkLoginCred(Integer msn, String pwd) {
 		try {
-			String raw = "SELECT * FROM %s WHERE %s = ? and %s = ?";
-			String query = String.format(raw, Main.Constants.STUDENT_TABLE_NAME,
+			String query = "SELECT * FROM %s WHERE %s = ? and %s = ?";
+			query = String.format(query, Main.Constants.STUDENT_TABLE_NAME,
 					StudentDataAccessClass.Constants.STUD_MSN, StudentDataAccessClass.Constants.STUD_PASS);
 			String ConnURL = Main.Constants.CONNECTION_URL;
 			Class.forName(Main.Constants.CLASS_FOR_NAME);
@@ -355,8 +357,8 @@ public class DatabaseOperations {
 	public static String getFname(Integer msn) {
 		String fname = "NAN";
 		try {
-			String raw = "SELECT %s FROM %s WHERE %s = ?";
-			String query = String.format(raw, StudentDataAccessClass.Constants.STUD_FNAME,
+			String query = "SELECT %s FROM %s WHERE %s = ?";
+			query = String.format(query, StudentDataAccessClass.Constants.STUD_FNAME,
 					Main.Constants.STUDENT_TABLE_NAME, StudentDataAccessClass.Constants.STUD_MSN);
 
 			String ConnURL = Main.Constants.CONNECTION_URL;
@@ -382,8 +384,8 @@ public class DatabaseOperations {
 	public static boolean getStudDetails(Integer msn) {
 		try {
 			System.out.println("getStudentDetails method called");
-			String raw = "SELECT %s, %s, %s, %s FROM %s WHERE %s = ?";
-			String query = String.format(raw, StudentDataAccessClass.Constants.STUD_MSN,
+			String query = "SELECT %s, %s, %s, %s FROM %s WHERE %s = ?";
+			query = String.format(query, StudentDataAccessClass.Constants.STUD_MSN,
 					StudentDataAccessClass.Constants.STUD_FNAME, StudentDataAccessClass.Constants.STUD_LNAME,
 					StudentDataAccessClass.Constants.STUD_EMAIL, Main.Constants.STUDENT_TABLE_NAME,
 					StudentDataAccessClass.Constants.STUD_MSN);
@@ -412,8 +414,8 @@ public class DatabaseOperations {
 	public static List<String> getStudCompNames(Integer msn) {
 		List<String> compNames = new ArrayList<>();
 		try {
-			String raw = "SELECT %s FROM %s INNER JOIN %s WHERE %s.%s = %s.%s AND %s.%s = ?";
-			String query = String.format(raw, DriveDataAccessClass.Constants.COMP_NAME, Main.Constants.DRIVE_TABLE_NAME,
+			String query = "SELECT %s FROM %s INNER JOIN %s WHERE %s.%s = %s.%s AND %s.%s = ?";
+			query = String.format(query, DriveDataAccessClass.Constants.COMP_NAME, Main.Constants.DRIVE_TABLE_NAME,
 					Main.Constants.STUD_DRIVE_APPLY_TAB, Main.Constants.DRIVE_TABLE_NAME,
 					DriveDataAccessClass.Constants.COMP_ID, Main.Constants.STUD_DRIVE_APPLY_TAB,
 					StudentDriveDataAccessClass.Constants.DRIVE_ID, Main.Constants.STUD_DRIVE_APPLY_TAB,
