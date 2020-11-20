@@ -28,9 +28,9 @@ public class DatabaseOperations {
 	public static boolean returnRes = false;
 
 	public static int addDriveToDatabase(String cname, String cdate, String xthMin, String xIIthMin, String BEMin,
-			String deadBack, String liveBack, String branch, String ctc)
-			throws EmptyFieldsException, NumberFormatException, SQLException, ClassNotFoundException,
-			PercentageOutOfBoundsException, BackingStoreException, CtcOutOfBoundsException, BackLogOutOfBoundsException, NameException {
+			String deadBack, String liveBack, String branch, String ctc) throws EmptyFieldsException,
+			NumberFormatException, SQLException, ClassNotFoundException, PercentageOutOfBoundsException,
+			BackingStoreException, CtcOutOfBoundsException, BackLogOutOfBoundsException, NameException {
 		int i = 0;
 		if (DataEntryValidation.checkEmptyFields(cname, cdate, xthMin, xIIthMin, BEMin, deadBack, liveBack, ctc)) {
 			throw new EmptyFieldsException("User left some fields empty!");
@@ -41,10 +41,9 @@ public class DatabaseOperations {
 			throw new BackLogOutOfBoundsException("Invalid Live OR Dead backlog entries");
 		} else if (DataEntryValidation.checkCtcField(Float.parseFloat(ctc))) {
 			throw new CtcOutOfBoundsException("Invalid CTC value");
-		} else if(DataEntryValidation.checkCompName(cname)) {
+		} else if (DataEntryValidation.checkCompName(cname)) {
 			throw new NameException("Invalid Company name");
-		}
-		else {
+		} else {
 			String query = "INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			query = String.format(query, Main.Constants.DRIVE_TABLE_NAME, DriveDataAccessClass.Constants.COMP_NAME,
 					DriveDataAccessClass.Constants.COMP_DATE, DriveDataAccessClass.Constants.COMP_X_MIN,
@@ -239,7 +238,6 @@ public class DatabaseOperations {
 			int i = ps.executeUpdate();
 			if (i > 0) {
 				res = true;
-				// tabview.getItems().removeAll(tabview.getSelectionModel().getSelectedItem());
 			} else {
 				res = false;
 			}
@@ -302,8 +300,11 @@ public class DatabaseOperations {
 		return res;
 	}
 
-	public static boolean checkLoginCred(String uname, String pwd) {
-		try {
+	public static boolean checkLoginCred(String uname, String pwd)
+			throws ClassNotFoundException, SQLException, EmptyFieldsException {
+		if (DataEntryValidation.checkLoginCred(uname, pwd)) {
+			throw new EmptyFieldsException("User left login fields empty");
+		} else {
 			String query = "SELECT * FROM %s WHERE %s = ? and %s = ?";
 			query = String.format(query, Main.Constants.ADMIN_TABLE_NAME, AdminDataAccessClass.Constants.ADMIN_UNAME,
 					AdminDataAccessClass.Constants.ADMIN_PASSWD);
@@ -322,15 +323,18 @@ public class DatabaseOperations {
 			ps.close();
 			conn.close();
 			rs.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			res = false;
 		}
+
 		return res;
 	}
 
-	public static boolean checkLoginCred(Integer msn, String pwd) {
-		try {
+	public static boolean checkLoginCred(int msn, String pwd) throws ClassNotFoundException, SQLException, EmptyFieldsException {
+		if(DataEntryValidation.checkLoginCred(Integer.toString(msn), pwd)) {
+			throw new EmptyFieldsException("User left login fields empty");
+		}else if(DataEntryValidation.checkMsnLoginNumber(Integer.toString(msn))) {
+			throw new NumberFormatException();
+		}
+		else {
 			String query = "SELECT * FROM %s WHERE %s = ? and %s = ?";
 			query = String.format(query, Main.Constants.STUDENT_TABLE_NAME, StudentDataAccessClass.Constants.STUD_MSN,
 					StudentDataAccessClass.Constants.STUD_PASS);
@@ -349,10 +353,9 @@ public class DatabaseOperations {
 			ps.close();
 			conn.close();
 			rs.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			res = false;
 		}
+		
+
 		return res;
 	}
 

@@ -5,13 +5,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+
+import java.sql.SQLException;
+
 import alertBoxPack.AlertBoxClass;
+import exceptionPack.EmptyFieldsException;
 import javafx.event.ActionEvent;
 
 import javafx.scene.layout.AnchorPane;
 
 import javafx.scene.layout.VBox;
-import model.DataEntryValidation;
 import model.DatabaseOperations;
 import screenPack.ScreenPackClass;
 
@@ -35,48 +38,61 @@ public class LoginPageFXMLController {
 	@FXML
 	private Button studLoginBtn;
 
-	public static Integer msn;
+	public static int msn;
 
-	// TODO Connect admin and Student login cred with database and validate entries
 	@FXML
 	public void adminLoginRoutine(ActionEvent event) throws Exception {
-		boolean isLoginCredValid;
-		if (DataEntryValidation.checkLoginCred(adminIDTxtField.getText(), adminPassTextField.getText())) {
-			AlertBoxClass.Amber("ALERT", "Username OR Password Missing!");
-		} else {
-			isLoginCredValid = DatabaseOperations.checkLoginCred(adminIDTxtField.getText(),
-					adminPassTextField.getText());
-			if (isLoginCredValid) {
+		String uname = adminIDTxtField.getText();
+		String pwd = adminPassTextField.getText();
+
+		try {
+			boolean login = DatabaseOperations.checkLoginCred(uname, pwd);
+			if (login) {
 				AlertBoxClass.Notify("SUCCESS", "Welcome! " + adminIDTxtField.getText());
 				ScreenPackClass.showAdminDashScreen(loginRootPane);
 			} else {
-				AlertBoxClass.ErrBox("LOGIN FAIL", "Incorrect credentials!");
+				AlertBoxClass.ErrBox("ERROR", "Incorrect login details!");
 			}
+		} catch (EmptyFieldsException e) {
+			e.printStackTrace();
+			AlertBoxClass.ErrBox("ERROR", "You left Username or Password field empty!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			AlertBoxClass.ErrBox("FATAL ERROR", "CORRUPT DATABASE");
+			AlertBoxClass.Notify("INFO", "Contact your software vendor!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			AlertBoxClass.ErrBox("FATAL ERROR", "Contact software vendor!");
 		}
 	}
 
 	@FXML
 	public void studLoginRoutine(ActionEvent event) throws Exception {
 		boolean isLoginCredValid;
-		boolean isANumber;
-		if (DataEntryValidation.checkLoginCred(studIDTextField.getText(), studentPassTextField.getText())) {
-			AlertBoxClass.Amber("ALERT", "Username OR Password Missing!");
-		} else {
-			// msn = Integer.parseInt(studIDTextField.getText());
-			isANumber = DataEntryValidation.checkMsnLoginNumber(studIDTextField.getText());
-			if (isANumber) {
-				AlertBoxClass.Amber("ALERT", "Incorrect MSN number!");
+		String msn = studIDTextField.getText();
+		String pwd = studentPassTextField.getText();
+
+		try {
+			isLoginCredValid = DatabaseOperations.checkLoginCred(Integer.parseInt(msn), pwd);
+			if (isLoginCredValid) {
+				AlertBoxClass.Notify("SUCCESS",
+						"Welcome " + DatabaseOperations.getFname(Integer.parseInt(studIDTextField.getText())));
+				ScreenPackClass.showStudentDashBoard(loginRootPane);
 			} else {
-				msn = Integer.parseInt(studIDTextField.getText());
-				isLoginCredValid = DatabaseOperations.checkLoginCred(msn, studentPassTextField.getText());
-				if (isLoginCredValid) {
-					AlertBoxClass.Notify("SUCCESS",
-							"Welcome " + DatabaseOperations.getFname(Integer.parseInt(studIDTextField.getText())));
-					ScreenPackClass.showStudentDashBoard(loginRootPane);
-				} else {
-					AlertBoxClass.ErrBox("ERROR", "INCORRECT Login details!");
-				}
+				AlertBoxClass.ErrBox("ERROR", "Incorrect login details");
 			}
+		} catch (EmptyFieldsException e) {
+			e.printStackTrace();
+			AlertBoxClass.ErrBox("ERROR", "You left Username or Password field empty!");
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			AlertBoxClass.ErrBox("ERROR", "Master Serial Number is invalid!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			AlertBoxClass.ErrBox("FATAL ERROR", "CORRUPT DATABASE");
+		} catch (Exception e) {
+			e.printStackTrace();
+			AlertBoxClass.ErrBox("FATAL ERROR", "CONTACT S/W VENDOR!");
 		}
 	}
 }

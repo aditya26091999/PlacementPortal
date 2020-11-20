@@ -70,17 +70,10 @@ public class StudentDashBoardFXMLController implements Initializable {
 	private int msn;
 	ObservableList<Drive> driveList;
 
-	// Event Listener on Button[#appiyForDriveBtn].onAction
 	@FXML
 	public void applyForSelectedDrive(ActionEvent event) {
 		Drive drive = upComingDriveTabView.getSelectionModel().getSelectedItem();
-		/*
-		 * boolean appliedForDrive = DatabaseOperations.applyForDrive(); if
-		 * (appliedForDrive) { AlertBoxClass.Notify("SUCCESS", "Applied For " +
-		 * drive.getDname()); } else { AlertBoxClass.ErrBox("ERROR",
-		 * "Failed to apply to the selected drive! Contact your software vendor OR your TnP coordinator!"
-		 * ); }
-		 */
+
 		msn = LoginPageFXMLController.msn;
 		boolean appliedForDrive = DatabaseOperations.applyForDrive(drive.getDID(), msn);
 		if (appliedForDrive) {
@@ -91,7 +84,6 @@ public class StudentDashBoardFXMLController implements Initializable {
 
 	}
 
-	// Event Listener on Button[#logoutbtn].onAction
 	@FXML
 	public void logOut(ActionEvent event) throws Exception {
 		AlertBoxClass.logOutConfirmation(studDashRootPane);
