@@ -1,4 +1,4 @@
-package adityaTestPackage;
+package junitTestCases;
 
 import static org.junit.Assert.assertEquals;
 

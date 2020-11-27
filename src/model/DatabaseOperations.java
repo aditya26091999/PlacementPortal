@@ -287,13 +287,13 @@ public class DatabaseOperations {
 
 			if (i > 0) {
 				res = true;
-				// AlertBoxClass.Notify("SUCCESS", "Applied for " + dname + " drive");
+
 			} else
 				res = false;
 			ps.close();
 			conn.close();
 		} catch (Exception e) {
-			// AlertBoxClass.Amber("ALERT", "Already applied to the drive!");
+
 			e.printStackTrace();
 			res = false;
 		}
@@ -328,13 +328,13 @@ public class DatabaseOperations {
 		return res;
 	}
 
-	public static boolean checkLoginCred(int msn, String pwd) throws ClassNotFoundException, SQLException, EmptyFieldsException {
-		if(DataEntryValidation.checkLoginCred(Integer.toString(msn), pwd)) {
+	public static boolean checkLoginCred(int msn, String pwd)
+			throws ClassNotFoundException, SQLException, EmptyFieldsException {
+		if (DataEntryValidation.checkLoginCred(Integer.toString(msn), pwd)) {
 			throw new EmptyFieldsException("User left login fields empty");
-		}else if(DataEntryValidation.checkMsnLoginNumber(Integer.toString(msn))) {
+		} else if (DataEntryValidation.checkMsnLoginNumber(Integer.toString(msn))) {
 			throw new NumberFormatException();
-		}
-		else {
+		} else {
 			String query = "SELECT * FROM %s WHERE %s = ? and %s = ?";
 			query = String.format(query, Main.Constants.STUDENT_TABLE_NAME, StudentDataAccessClass.Constants.STUD_MSN,
 					StudentDataAccessClass.Constants.STUD_PASS);
@@ -354,7 +354,6 @@ public class DatabaseOperations {
 			conn.close();
 			rs.close();
 		}
-		
 
 		return res;
 	}

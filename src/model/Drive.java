@@ -11,7 +11,7 @@ public class Drive {
 	private String MaxDeadBack;
 	private String Branch;
 	private String Ctc;
-	public Drive(Integer dID, String dname, String ddate, String dXthMin, String dXIIthMin, String dBEMin,
+	public Drive(int dID, String dname, String ddate, String dXthMin, String dXIIthMin, String dBEMin,
 			String maxLiveBack, String maxDeadBack, String branch, String ctc) {
 		super();
 		DID = dID;
@@ -31,10 +31,10 @@ public class Drive {
 		Ddate = ddate;
 		Ctc = ctc;
 	}
-	public Integer getDID() {
+	public int getDID() {
 		return DID;
 	}
-	public void setDID(Integer dID) {
+	public void setDID(int dID) {
 		DID = dID;
 	}
 	public String getDname() {

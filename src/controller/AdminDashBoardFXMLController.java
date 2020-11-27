@@ -159,7 +159,6 @@ public class AdminDashBoardFXMLController implements Initializable {
 	@FXML
 	public void removeSelectedStud(ActionEvent event) {
 		Student stud = studTabView.getSelectionModel().getSelectedItem();
-		//studTabView.getItems().removeAll(studTabView.getSelectionModel().getSelectedItem());
 		boolean studRemoved = DatabaseOperations.removeSelectedStudent(stud.getMSN());
 		if (studRemoved) {
 			AlertBoxClass.Notify("SUCCESS", stud.getFname() + " removed from database!");
@@ -167,6 +166,7 @@ public class AdminDashBoardFXMLController implements Initializable {
 		} else {
 			AlertBoxClass.ErrBox("ERROR", "An error occured on our end! Contact your software vendor!");
 		}
+		refresh();
 	}
 
 	@FXML
@@ -227,10 +227,19 @@ public class AdminDashBoardFXMLController implements Initializable {
 		msn = stud.getMSN();
 		branch = stud.getBranch();
 		college = stud.getCollege();
-		// System.out.println("fname: "+fname+"\nlname: "+lname+"\nemail:
-		// "+email+"\nmsn: "+msn+"\nbranch: "+branch+"\ncollege: "+college);
 		ScreenPackClass.showStudUpdateScreen(studInfoPane);
-
+	}
+	
+	public void refresh() {
+		stuMSN.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_MSN));
+		stuFname.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_FNAME));
+		stuLname.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_LNAME));
+		stuEmail.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_EMAIL));
+		stuBranch.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_BRANCH));
+		stuClg.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_COLLEGE));
+		studLogPass.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_PASS));
+		stuList = DatabaseOperations.getStudentDetails();
+		studTabView.setItems(stuList);
 	}
 
 	@Override
@@ -248,15 +257,16 @@ public class AdminDashBoardFXMLController implements Initializable {
 		driveList = DatabaseOperations.getCompanyDetails();
 		driveTabView.setItems(driveList);
 
-		stuMSN.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_MSN));
-		stuFname.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_FNAME));
-		stuLname.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_LNAME));
-		stuEmail.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_EMAIL));
-		stuBranch.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_BRANCH));
-		stuClg.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_COLLEGE));
-		studLogPass.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_PASS));
-		stuList = DatabaseOperations.getStudentDetails();
-		studTabView.setItems(stuList);
+//		stuMSN.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_MSN));
+//		stuFname.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_FNAME));
+//		stuLname.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_LNAME));
+//		stuEmail.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_EMAIL));
+//		stuBranch.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_BRANCH));
+//		stuClg.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_COLLEGE));
+//		studLogPass.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_PASS));
+//		stuList = DatabaseOperations.getStudentDetails();
+//		studTabView.setItems(stuList);
+		refresh();
 
 		searchStudRecord();
 

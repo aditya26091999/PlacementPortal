@@ -42,13 +42,13 @@
 					<children>
 						<TableView fx:id="studTabView" layoutX="20.0" layoutY="81.0" prefHeight="274.0" prefWidth="1033.0" AnchorPane.bottomAnchor="164.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="81.0">
 							<columns>
-								<TableColumn fx:id="stuMSN" prefWidth="75.0" text="MSN" />
-								<TableColumn fx:id="stuFname" prefWidth="160.0" text="First Name" />
-                        <TableColumn fx:id="stuLname" prefWidth="145.6000518798828" text="Last Name" />
-                        <TableColumn fx:id="stuEmail" prefWidth="265.6000061035156" text="Email" />
-                        <TableColumn fx:id="stuBranch" prefWidth="159.199951171875" text="Branch" />
-                        <TableColumn fx:id="stuClg" prefWidth="128.800048828125" text="College" />
-                        <TableColumn fx:id="studLogPass" prefWidth="234.4000244140625" resizable="false" text="Login Password" />
+								<TableColumn fx:id="stuMSN" editable="false" prefWidth="75.0" sortable="false" text="MSN" />
+								<TableColumn fx:id="stuFname" editable="false" prefWidth="160.0" sortable="false" text="First Name" />
+                        <TableColumn fx:id="stuLname" editable="false" prefWidth="145.6000518798828" sortable="false" text="Last Name" />
+                        <TableColumn fx:id="stuEmail" editable="false" prefWidth="265.6000061035156" sortable="false" text="Email" />
+                        <TableColumn fx:id="stuBranch" editable="false" prefWidth="159.199951171875" sortable="false" text="Branch" />
+                        <TableColumn fx:id="stuClg" editable="false" prefWidth="128.800048828125" sortable="false" text="College" />
+                        <TableColumn fx:id="studLogPass" editable="false" prefWidth="234.4000244140625" resizable="false" sortable="false" text="Login Password" />
 							</columns>
 						</TableView>
 						<Button fx:id="addNewStudBtn" layoutX="20.0" layoutY="473.0" mnemonicParsing="false" onAction="#addNewStud" prefHeight="35.0" prefWidth="200.0" text="Add New Student" AnchorPane.bottomAnchor="115.80000000000001" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="630.0" />

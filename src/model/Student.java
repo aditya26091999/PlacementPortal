@@ -1,7 +1,7 @@
 package model;
 
 public class Student {
-	private Integer MSN;
+	private int MSN;
 	private String fname;
 	private String lname;
 	private String email;
@@ -9,7 +9,7 @@ public class Student {
 	private String college;
 	private String Passwd;
 
-	public Student(Integer mSN, String fname, String lname, String email, String branch, String college,
+	public Student(int mSN, String fname, String lname, String email, String branch, String college,
 			String Passwd) {
 		super();
 		MSN = mSN;
@@ -21,7 +21,7 @@ public class Student {
 		this.Passwd = Passwd;
 	}
 
-	public Student(Integer mSN, String fname, String lname, String email) {
+	public Student(int mSN, String fname, String lname, String email) {
 		super();
 		MSN = mSN;
 		this.fname = fname;
@@ -29,11 +29,11 @@ public class Student {
 		this.email = email;
 	}
 
-	public Integer getMSN() {
+	public int getMSN() {
 		return MSN;
 	}
 
-	public void setMSN(Integer mSN) {
+	public void setMSN(int mSN) {
 		MSN = mSN;
 	}
 
