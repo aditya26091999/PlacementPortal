@@ -72,15 +72,15 @@ public class DatabaseOperations {
 		return i;
 	}
 
-	public static int addStudentToDatabase(Integer msn, String fname, String lname, String email, String branch,
+	public static int addStudentToDatabase(String msn, String fname, String lname, String email, String branch,
 			String college, String studPass)
 			throws ClassNotFoundException, SQLException, EmptyFieldsException, EmailFormatException, NameException {
 		int i = 0;
-		if (DataEntryValidation.checkEmptyFields(fname, lname, Integer.toString(msn), email, branch, college)) {
+		if (DataEntryValidation.checkEmptyFields(fname, lname, msn, email, branch, college)) {
 			throw new EmptyFieldsException("User left some fields empty");
 		} else if (DataEntryValidation.checkEmailRegex(email)) {
 			throw new EmailFormatException("User entered an incorrect email");
-		} else if (DataEntryValidation.checkMsnLoginNumber(Integer.toString(msn))) {
+		} else if (DataEntryValidation.checkMsnLoginNumber(msn)) {
 			throw new NumberFormatException();
 		} else if (DataEntryValidation.checkFnameAndLname(fname, lname)) {
 			throw new NameException("User entered an invalid Fname or Lname");
@@ -94,7 +94,7 @@ public class DatabaseOperations {
 			Class.forName(Main.Constants.CLASS_FOR_NAME);
 			Connection conn = DriverManager.getConnection(ConnURL);
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, msn);
+			ps.setInt(1, Integer.parseInt(msn));
 			ps.setString(2, fname);
 			ps.setString(3, lname);
 			ps.setString(4, email);
@@ -213,7 +213,6 @@ public class DatabaseOperations {
 			int i = ps.executeUpdate();
 			if (i > 0) {
 				res = true;
-				// tabview.getItems().removeAll(tabview.getSelectionModel().getSelectedItem());
 			} else {
 				res = false;
 			}
@@ -328,11 +327,11 @@ public class DatabaseOperations {
 		return res;
 	}
 
-	public static boolean checkLoginCred(int msn, String pwd)
+	public static boolean checkStudLoginCred(String msn, String pwd)
 			throws ClassNotFoundException, SQLException, EmptyFieldsException {
-		if (DataEntryValidation.checkLoginCred(Integer.toString(msn), pwd)) {
+		if (DataEntryValidation.checkLoginCred(msn, pwd)) {
 			throw new EmptyFieldsException("User left login fields empty");
-		} else if (DataEntryValidation.checkMsnLoginNumber(Integer.toString(msn))) {
+		} else if (DataEntryValidation.checkMsnLoginNumber(msn)) {
 			throw new NumberFormatException();
 		} else {
 			String query = "SELECT * FROM %s WHERE %s = ? and %s = ?";
@@ -342,7 +341,7 @@ public class DatabaseOperations {
 			Class.forName(Main.Constants.CLASS_FOR_NAME);
 			Connection conn = DriverManager.getConnection(ConnURL);
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, msn);
+			ps.setInt(1, Integer.parseInt(msn));
 			ps.setString(2, pwd);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {

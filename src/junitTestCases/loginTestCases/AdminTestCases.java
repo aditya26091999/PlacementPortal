@@ -1,4 +1,4 @@
-package junitTestCases;
+package junitTestCases.loginTestCases;
 
 import org.junit.Test;
 
@@ -28,18 +28,18 @@ public class AdminTestCases {
 
 	@Test(expected = EmptyFieldsException.class)
 	public void TestLoginPage() throws ClassNotFoundException, SQLException, EmptyFieldsException {
-		LoginTestMethodClass.testLogin();
+		LoginTestMethodClass.testLoginAdmin();
 	}
 
 	@Test
 	public void TestLoginSuccess() throws ClassNotFoundException, SQLException, EmptyFieldsException {
-		boolean test = LoginTestMethodClass.testLoginSuccess();
+		boolean test = LoginTestMethodClass.testLoginAdminSuccess();
 		assertTrue(test);
 	}
 	
 	@Test
 	public void TestLoginFailure() throws ClassNotFoundException, SQLException, EmptyFieldsException {
-		boolean test = LoginTestMethodClass.testLoginFailure();
+		boolean test = LoginTestMethodClass.testLoginAdminFailure();
 		assertFalse(test);
 	}
 

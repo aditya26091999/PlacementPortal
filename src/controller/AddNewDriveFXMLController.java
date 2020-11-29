@@ -1,15 +1,20 @@
 package controller;
 
 import javafx.fxml.FXML;
-
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-
+import javafx.scene.control.DateCell;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Callback;
 import model.DatabaseOperations;
 import screenPack.ScreenPackClass;
 
+import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
+
 import alertBoxPack.AlertBoxClass;
 import exceptionPack.BackLogOutOfBoundsException;
 import exceptionPack.CtcOutOfBoundsException;
@@ -21,7 +26,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 
-public class AddNewDriveFXMLController {
+public class AddNewDriveFXMLController implements Initializable {
 	@FXML
 	private TextField companyName;
 	@FXML
@@ -116,10 +121,10 @@ public class AddNewDriveFXMLController {
 				}
 			}
 
-			int i = DatabaseOperations.addDriveToDatabase(company, date, XthMinPerc, XIIthMinPerc, BeMinPerc, MaxDeadBack,
-					MaxLiveBack, department, ctc);
-			if(i>0) {
-				AlertBoxClass.Notify("SUCCESS", company+" added to placement drive");
+			int i = DatabaseOperations.addDriveToDatabase(company, date, XthMinPerc, XIIthMinPerc, BeMinPerc,
+					MaxDeadBack, MaxLiveBack, department, ctc);
+			if (i > 0) {
+				AlertBoxClass.Notify("SUCCESS", company + " added to placement drive");
 			}
 		} catch (EmptyFieldsException e) {
 			e.printStackTrace();
@@ -146,5 +151,27 @@ public class AddNewDriveFXMLController {
 	@FXML
 	public void backToAdminDash(ActionEvent event) throws Exception {
 		ScreenPackClass.showAdminDashScreen(newDriveRootPane);
+	}
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		LocalDate date = LocalDate.now();
+		final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+			@Override
+			public DateCell call(final DatePicker datePicker) {
+				return new DateCell() {
+					@Override
+					public void updateItem(LocalDate item, boolean empty) {
+						super.updateItem(item, empty);
+
+						if (item.isBefore(date)) {
+							setDisable(true);
+							setStyle("-fx-background-color: #ffc0cb;");
+						}
+					}
+				};
+			}
+		};
+		dateOfDrive.setDayCellFactory(dayCellFactory);
 	}
 }

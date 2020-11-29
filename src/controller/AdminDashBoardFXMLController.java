@@ -257,31 +257,8 @@ public class AdminDashBoardFXMLController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-//		driveID.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_ID));
-//		compName.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_NAME));
-//		driveDate.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_DATE));
-//		driveCTC.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_CTC));
-//		driveBranch.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_BRANCH));
-//		xthPerc.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_X_MIN));
-//		xiiPerc.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_XII_MIN));
-//		beAvgPerc.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_BE_MIN));
-//		maxDeadbacks.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_MAX_DEAD_BACK));
-//		maxLiveBacks.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_MAX_LIVE_BACK));
-//		driveList = DatabaseOperations.getCompanyDetails();
-//		driveTabView.setItems(driveList);
-
-//		stuMSN.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_MSN));
-//		stuFname.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_FNAME));
-//		stuLname.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_LNAME));
-//		stuEmail.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_EMAIL));
-//		stuBranch.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_BRANCH));
-//		stuClg.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_COLLEGE));
-//		studLogPass.setCellValueFactory(new PropertyValueFactory<>(StudentDataAccessClass.Constants.STUD_PASS));
-//		stuList = DatabaseOperations.getStudentDetails();
-//		studTabView.setItems(stuList);
 		refresh();
 
 		searchStudRecord();
-
 	}
 }

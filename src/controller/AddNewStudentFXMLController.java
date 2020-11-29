@@ -51,7 +51,7 @@ public class AddNewStudentFXMLController implements Initializable {
 	void addStudentDatabase(ActionEvent event)
 			throws ClassNotFoundException, SQLException, EmptyFieldsException, NameException {
 		try {
-			int msn = Integer.parseInt(masterSerialNum.getText());
+			String msn = masterSerialNum.getText();
 			String fname = firstName.getText();
 			String lname = lastName.getText();
 			String email = emailAddress.getText();

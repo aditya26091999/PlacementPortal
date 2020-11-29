@@ -73,7 +73,7 @@ public class LoginPageFXMLController {
 		String pwd = studentPassTextField.getText();
 
 		try {
-			isLoginCredValid = DatabaseOperations.checkLoginCred(Integer.parseInt(msn), pwd);
+			isLoginCredValid = DatabaseOperations.checkStudLoginCred(msn, pwd);
 			if (isLoginCredValid) {
 				AlertBoxClass.Notify("SUCCESS",
 						"Welcome " + DatabaseOperations.getFname(Integer.parseInt(studIDTextField.getText())));
