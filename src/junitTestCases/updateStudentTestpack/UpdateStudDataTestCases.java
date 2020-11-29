@@ -13,6 +13,10 @@ import exceptionPack.NameException;
 public class UpdateStudDataTestCases {
 	static int res;
 	static boolean resBol;
+	
+	/**
+	 * Scenario 3 (TS03—Priority P1) Positive scenario master serial number can be searched and records can be updated successfully.
+	 */
 	@Test
 	public void UpdateSuccessCase() throws ClassNotFoundException, EmailFormatException, SQLException, EmptyFieldsException, NameException {
 		System.out.println("-------------------SUCCESSFUL UPDATE STUDENT RECORD TEST CASE #1-----------------");

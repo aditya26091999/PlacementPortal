@@ -386,7 +386,6 @@ public class DatabaseOperations {
 
 	public static boolean getStudDetails(Integer msn) {
 		try {
-			System.out.println("getStudentDetails method called");
 			String query = "SELECT %s, %s, %s, %s FROM %s WHERE %s = ?";
 			query = String.format(query, StudentDataAccessClass.Constants.STUD_MSN,
 					StudentDataAccessClass.Constants.STUD_FNAME, StudentDataAccessClass.Constants.STUD_LNAME,
@@ -404,7 +403,6 @@ public class DatabaseOperations {
 				getLname = rs.getString(StudentDataAccessClass.Constants.STUD_LNAME);
 				getEmail = rs.getString(StudentDataAccessClass.Constants.STUD_EMAIL);
 			}
-			System.out.println("Fname: " + getFname + " Lname: " + getLname + " Email: " + getEmail + " MSN: " + msn);
 			ps.close();
 			conn.close();
 			rs.close();
