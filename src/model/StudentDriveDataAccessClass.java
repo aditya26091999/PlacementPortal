@@ -11,7 +11,7 @@ public class StudentDriveDataAccessClass {
 	static Connection conn;
 
 	public static void createStudentDriveApplyTable() throws ClassNotFoundException, SQLException {
-		String raw = "CREATE TABLE IF NOT EXISTS %s (%s INTEGER, %s INTEGER, FOREIGN KEY(%s) REFERENCES %s(%s) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY(%s) REFERENCES %s(%s) ON DELETE CASCADE ON UPDATE CASCADE, UNIQUE(%s, %s))";
+		String raw = "CREATE TABLE IF NOT EXISTS %s (%s INTEGER, %s INTEGER, FOREIGN KEY(%s) REFERENCES %s(%s) ON DELETE CASCADE, FOREIGN KEY(%s) REFERENCES %s(%s) ON DELETE CASCADE, UNIQUE(%s, %s))";
 		String query = String.format(raw, Main.Constants.STUD_DRIVE_APPLY_TAB,
 				StudentDriveDataAccessClass.Constants.DRIVE_ID, StudentDriveDataAccessClass.Constants.STUD_ID,
 				StudentDriveDataAccessClass.Constants.DRIVE_ID, Main.Constants.DRIVE_TABLE_NAME,

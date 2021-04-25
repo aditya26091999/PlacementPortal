@@ -38,7 +38,7 @@ public class LoginPageFXMLController {
 	@FXML
 	private Button studLoginBtn;
 
-	public static int msn;
+	public static int Intmsn;
 
 	@FXML
 	public void adminLoginRoutine(ActionEvent event) throws Exception {
@@ -71,7 +71,7 @@ public class LoginPageFXMLController {
 		boolean isLoginCredValid;
 		String msn = studIDTextField.getText();
 		String pwd = studentPassTextField.getText();
-
+		Intmsn = Integer.parseInt(studIDTextField.getText());
 		try {
 			isLoginCredValid = DatabaseOperations.checkStudLoginCred(msn, pwd);
 			if (isLoginCredValid) {

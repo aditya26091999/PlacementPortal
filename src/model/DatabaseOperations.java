@@ -415,11 +415,17 @@ public class DatabaseOperations {
 	public static List<String> getStudCompNames(Integer msn) {
 		List<String> compNames = new ArrayList<>();
 		try {
-			String query = "SELECT %s FROM %s INNER JOIN %s WHERE %s.%s = %s.%s AND %s.%s = ?";
-			query = String.format(query, DriveDataAccessClass.Constants.COMP_NAME, Main.Constants.DRIVE_TABLE_NAME,
-					Main.Constants.STUD_DRIVE_APPLY_TAB, Main.Constants.DRIVE_TABLE_NAME,
-					DriveDataAccessClass.Constants.COMP_ID, Main.Constants.STUD_DRIVE_APPLY_TAB,
-					StudentDriveDataAccessClass.Constants.DRIVE_ID, Main.Constants.STUD_DRIVE_APPLY_TAB,
+//			String query = "SELECT %s FROM %s INNER JOIN %s WHERE %s.%s = %s.%s AND %s.%s = ?";
+//			query = String.format(query, DriveDataAccessClass.Constants.COMP_NAME, Main.Constants.DRIVE_TABLE_NAME,
+//					Main.Constants.STUD_DRIVE_APPLY_TAB, Main.Constants.DRIVE_TABLE_NAME,
+//					DriveDataAccessClass.Constants.COMP_ID, Main.Constants.STUD_DRIVE_APPLY_TAB,
+//					StudentDriveDataAccessClass.Constants.DRIVE_ID, Main.Constants.STUD_DRIVE_APPLY_TAB,
+//					StudentDriveDataAccessClass.Constants.STUD_ID);
+			String query = "SELECT %s from %s inner join %s ON %s.%s = %s.%s where %s.%s = ?; ";
+			query = String.format(query, DriveDataAccessClass.Constants.COMP_NAME, Main.Constants.DRIVE_TABLE_NAME, 
+					Main.Constants.STUD_DRIVE_APPLY_TAB, Main.Constants.STUD_DRIVE_APPLY_TAB, 
+					StudentDriveDataAccessClass.Constants.DRIVE_ID, Main.Constants.DRIVE_TABLE_NAME, 
+					DriveDataAccessClass.Constants.COMP_ID, Main.Constants.STUD_DRIVE_APPLY_TAB, 
 					StudentDriveDataAccessClass.Constants.STUD_ID);
 			String ConnURL = Main.Constants.CONNECTION_URL;
 			Class.forName(Main.Constants.CLASS_FOR_NAME);

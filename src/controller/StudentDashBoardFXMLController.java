@@ -74,7 +74,8 @@ public class StudentDashBoardFXMLController implements Initializable {
 	public void applyForSelectedDrive(ActionEvent event) {
 		Drive drive = upComingDriveTabView.getSelectionModel().getSelectedItem();
 
-		msn = LoginPageFXMLController.msn;
+		msn = LoginPageFXMLController.Intmsn;
+		System.out.println(msn);
 		boolean appliedForDrive = DatabaseOperations.applyForDrive(drive.getDID(), msn);
 		if (appliedForDrive) {
 			AlertBoxClass.Notify("SUCCESS", "Applied for " + drive.getDname() + " drive");
@@ -106,30 +107,12 @@ public class StudentDashBoardFXMLController implements Initializable {
 		yourCompName.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_NAME));
 		yourDateOfDrive.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_DATE));
 		yourDriveCTC.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_CTC));
-		driveList = DatabaseOperations.getYourDriveDetails(LoginPageFXMLController.msn);
+		driveList = DatabaseOperations.getYourDriveDetails(LoginPageFXMLController.Intmsn);
 		yourDriveTabView.setItems(driveList);
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-//		driveID.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_ID));
-//		compName.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_NAME));
-//		driveDate.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_DATE));
-//		driveCTC.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_CTC));
-//		driveBranch.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_BRANCH));
-//		xthPerc.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_X_MIN));
-//		xiiPerc.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_XII_MIN));
-//		beAvgPerc.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_BE_MIN));
-//		maxDeadbacks.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_MAX_DEAD_BACK));
-//		maxLiveBacks.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_MAX_LIVE_BACK));
-//		driveList = DatabaseOperations.getCompanyDetails();
-//		upComingDriveTabView.setItems(driveList);
-//
-//		yourCompName.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_NAME));
-//		yourDateOfDrive.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_DATE));
-//		yourDriveCTC.setCellValueFactory(new PropertyValueFactory<>(DriveDataAccessClass.Constants.COMP_CTC));
-//		driveList = DatabaseOperations.getYourDriveDetails(LoginPageFXMLController.msn);
-//		yourDriveTabView.setItems(driveList);
 		refresh();
 	}
 }
